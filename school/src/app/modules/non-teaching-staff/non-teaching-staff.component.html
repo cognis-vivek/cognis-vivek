@@ -1,0 +1,294 @@
+<mat-toolbar>
+    <span>Supervise Non - Teaching Staff</span>
+</mat-toolbar>
+
+<mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Non - Teaching Staff
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput [(ngModel)] ="firstName">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Middle Name</mat-label>
+            <input matInput [(ngModel)] ="middleName">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput [(ngModel)] ="lastName">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Father Name</mat-label>
+            <input matInput [(ngModel)] ="fatherName">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Mother Name</mat-label>
+            <input matInput [(ngModel)] ="motherName">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)] ="email">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Phone No.</mat-label>
+            <input matInput [(ngModel)] ="phoneNo">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Education</mat-label>
+            <input matInput [(ngModel)] ="education"> 
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Experience</mat-label>
+            <input matInput [(ngModel)] ="experience">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Adress</mat-label>
+            <input matInput [(ngModel)] ="localAddress">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>District</mat-label>
+            <input matInput [(ngModel)] ="district">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Location</mat-label>
+            <input matInput [(ngModel)] ="location">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>State</mat-label>
+            <input matInput [(ngModel)] ="state">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>City</mat-label>
+            <input matInput [(ngModel)] ="city">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Postal Code</mat-label>
+            <input matInput [(ngModel)] ="postalCode">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nationality</mat-label>
+            <input matInput [(ngModel)] ="nationality">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Country</mat-label>
+            <input matInput [(ngModel)] ="country">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Gender</mat-label>
+            <mat-select (selectionChange)="onChangeGender($event)">
+                <mat-option *ngFor='let gender of genderArr' [value]="gender">{{gender}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Religion</mat-label>
+            <mat-select (selectionChange)="onChangeReligion($event)">
+                <mat-option *ngFor='let religion of relegionArr' [value]="religion">{{religion}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Department</mat-label>
+            <mat-select  (selectionChange)="departmentChange($event)">
+                <mat-option *ngFor="let department of departmentArr" [value]="department.departmentId">{{department.department}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Blood Group</mat-label>
+            <mat-select (selectionChange)="onChangeBlood($event)">
+                <mat-option *ngFor='let blood of bloodGroupArr' [value]="blood">{{blood}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Date of Joining</mat-label>
+            <input matInput [matDatepicker]="picker" (dateChange)="onJoiningDateChange($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker2" (dateChange)="onDateOfBirthChange($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <mat-action-row>
+            <button mat-button color="primary" (click) ="addStaff()">Submit</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+<br>
+<mat-card>
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search" (keyup)="applyFilter($event)">
+    </mat-form-field>
+    <div class="example-container mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="index" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl.No</th>
+                <td mat-cell *matCellDef="let row">{{row.index}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="staffId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Staff&nbsp;Id</th>
+                <td mat-cell *matCellDef="let row">{{row.staffId}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="department">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
+                <td mat-cell *matCellDef="let row">{{row.department}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>First&nbsp;Name</th>
+                <td mat-cell *matCellDef="let row">{{row.firstName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="middleName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Middle&nbsp;Name</th>
+                <td mat-cell *matCellDef="let row">{{row.middleName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Last&nbsp;Name</th>
+                <td mat-cell *matCellDef="let row">{{row.lastName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Gender</th>
+                <td mat-cell *matCellDef="let row">{{row.gender}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+                <td mat-cell *matCellDef="let row">{{row.date}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="bloodGrp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Blood&nbsp;Group</th>
+                <td mat-cell *matCellDef="let row">{{row.bloodGrp}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="qualification">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Education</th>
+                <td mat-cell *matCellDef="let row">{{row.qualification}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="dob">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date&nbsp;of&nbsp;Birth</th>
+                <td mat-cell *matCellDef="let row">{{row.dob}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                <td mat-cell *matCellDef="let row">{{row.email}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="phoneNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone&nbsp;No</th>
+                <td mat-cell *matCellDef="let row">{{row.phoneNo}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="religion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Religion</th>
+                <td mat-cell *matCellDef="let row">{{row.religion}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="nationality">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nationality</th>
+                <td mat-cell *matCellDef="let row">{{row.nationality}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="address1">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Current&nbsp;Address</th>
+                <td mat-cell *matCellDef="let row">{{row.address1}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="address2">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Permanent&nbsp;Address</th>
+                <td mat-cell *matCellDef="let row">{{row.address2}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="district">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+                <td mat-cell *matCellDef="let row">{{row.district}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
+                <td mat-cell *matCellDef="let row">{{row.city}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="postalcode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Postal&nbsp;Code</th>
+                <td mat-cell *matCellDef="let row">{{row.postalcode}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+                <td mat-cell *matCellDef="let row">{{row.location}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="state">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
+                <td mat-cell *matCellDef="let row">{{row.state}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="country">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+                <td mat-cell *matCellDef="let row">{{row.country}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="joiningDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Joining&nbsp;Date</th>
+                <td mat-cell *matCellDef="let row">{{row.joiningDate}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="experience">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Experience</th>
+                <td mat-cell *matCellDef="let row">{{row.experience}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="fatherName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Father&nbsp;Name</th>
+                <td mat-cell *matCellDef="let row">{{row.fatherName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="motherName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Mother&nbsp;Name</th>
+                <td mat-cell *matCellDef="let row">{{row.motherName}}</td>
+            </ng-container>
+
+            
+
+            <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                        <button mat-menu-item>
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: dataColumns;"></tr>
+        </table>
+        <mat-paginator [length]="staffRowArr.length" [pageSize]="5" [pageSizeOptions]="[1,5, 10, 25, 100]">
+
+        </mat-paginator>
+    </div>
+</mat-card>

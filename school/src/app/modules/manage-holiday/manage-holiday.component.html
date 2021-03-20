@@ -1,0 +1,85 @@
+<mat-toolbar>
+    <span>Supervise Holiday</span>
+</mat-toolbar>
+
+<mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Holiday
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+            <mat-label>Holiday Name</mat-label>
+            <input matInput [(ngModel)] = "holidayName">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Holiday Date Range</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <input matStartDate formControlName="start" placeholder="Start date">
+                <input matEndDate formControlName="end" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-action-row>
+            <button mat-button color="primary" (click) ="saveHoliday()">Submit</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+<br>
+<mat-card>
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search" (keyup)="applyFilter($event)">
+    </mat-form-field>
+
+    <div>
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="holidayId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl. No.</th>
+                <td mat-cell *matCellDef="let row">{{row.holidayId}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="nameOfHoliday">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Holiday Name </th>
+                <td mat-cell *matCellDef="let row">{{row.nameOfHoliday}}</td>
+            </ng-container>
+            <ng-container matColumnDef="fromDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                <td mat-cell *matCellDef="let row">{{row.fromDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="toDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+                <td mat-cell *matCellDef="let row">{{row.toDate}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+                        <button mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="column"></tr>
+            <tr mat-row *matRowDef="let row; columns: column;"></tr>
+        </table>
+        <mat-paginator [length]="holidayArr.length" [pageSize]="5" [pageSizeOptions]="[1,5, 10, 25, 100]">
+        </mat-paginator>
+    </div>
+
+
+</mat-card>

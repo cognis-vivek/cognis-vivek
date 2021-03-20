@@ -1,0 +1,134 @@
+<mat-toolbar>
+    <span>Supervise Subject</span>
+</mat-toolbar>
+
+<mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Class
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+            <mat-label>Class</mat-label>
+            <mat-select>
+                <mat-option value="1">1</mat-option>
+                <mat-option value="2">2</mat-option>
+                <mat-option value="3">3</mat-option>
+                <mat-option value="4">4</mat-option>
+                <mat-option value="1">5</mat-option>
+                <mat-option value="2">6</mat-option>
+                <mat-option value="3">7</mat-option>
+                <mat-option value="4">8</mat-option>
+                <mat-option value="3">9</mat-option>
+                <mat-option value="4">10</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Section</mat-label>
+            <mat-select>
+                <mat-option value="1">A</mat-option>
+                <mat-option value="2">B</mat-option>
+                <mat-option value="3">C</mat-option>
+                <mat-option value="4">D</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Subject Name</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Subject Content</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Writter Name</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Optional</mat-label>
+            <mat-select>
+                <mat-option value="1">Yes</mat-option>
+                <mat-option value="2">No</mat-option>
+                <mat-option value="3">Other</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label *ngIf="selectedFiles; else newFile">{{selectedFiles.item(0).name}}</mat-label>
+            <ng-template #newFile>
+                <mat-label>Syllabus Upload</mat-label>
+            </ng-template>
+            <input matInput>
+            <button mat-icon-button matSuffix (click)="fileInput.click()">
+            <mat-icon>attach_file</mat-icon>
+        </button>
+            <input hidden (change)="selectFile($event)" #fileInput type="file" id="file">
+        </mat-form-field>
+        <mat-action-row>
+            <button mat-button color="primary"(click)="openPdf()">Submit</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<br>
+<mat-card>
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search" (keyup)="applyFilter($event)">
+    </mat-form-field>
+
+    <div>
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="subjectId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl.no.</th>
+                <td mat-cell *matCellDef="let row">{{row.subjectId}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="subjectName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject Name </th>
+                <td mat-cell *matCellDef="let row">{{row.subjectName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="classId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>class </th>
+                <td mat-cell *matCellDef="let row">{{row.classId}}</td>
+            </ng-container>
+            <ng-container matColumnDef="subjectContent">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject Content</th>
+                <td mat-cell *matCellDef="let row">{{row.subjectContent}}</td>c
+            </ng-container>
+            
+            <ng-container matColumnDef="optional">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Optional </th>
+                <td mat-cell *matCellDef="let row">{{row.optional}}</td>
+            </ng-container>
+            
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+                        <button mat-menu-item>
+                <mat-icon>delete</mat-icon>
+
+     <span>Delete</span>
+              </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="column"></tr>
+            <tr mat-row *matRowDef="let row; columns: column;"></tr>
+        </table>
+        <mat-paginator [length]="posts.length" [pageSize]="5" [pageSizeOptions]="[1,5, 10, 25, 100]">
+        </mat-paginator>
+    </div>
+
+
+</mat-card>

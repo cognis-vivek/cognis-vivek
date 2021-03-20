@@ -1,0 +1,43 @@
+<mat-toolbar>
+    <span>Supervise Gallery</span>
+</mat-toolbar>
+
+<mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Gallery
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+            <mat-label *ngIf="selectedFiles; else newFile">{{selectedFiles.item(0).name}}</mat-label>
+            <ng-template #newFile>
+                <mat-label>Image Upload</mat-label>
+            </ng-template>
+            <input matInput (click)="fileInput.click()">
+            <button mat-icon-button matSuffix (click)="fileInput.click()">
+            <mat-icon>add_photo_alternate</mat-icon>
+        </button>
+            <input hidden (change)="selectFile($event)" #fileInput type="file" id="file">
+        </mat-form-field>
+        <mat-action-row>
+            <button mat-button color="primary">Submit</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+<br>
+
+<mat-card>
+    <p></p>
+    <div class="row">
+        <div class="column">
+            <img src="assets/img/annualFunction2.jpg" alt="Snow" style="width:100%">
+        </div>
+        <div class="column">
+            <img src="assets/img/annualFunction3.jpg" alt="Forest" style="width:100%">
+        </div>
+        <div class="column">
+            <img src="assets/img/annualFunction4.jpg" alt="Mountains" style="width:100%">
+        </div>
+    </div>
+</mat-card>

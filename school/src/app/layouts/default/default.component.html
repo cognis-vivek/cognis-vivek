@@ -1,0 +1,23 @@
+<!-- <app-header flexLayout="column"></app-header>
+<div flexLayout="row" fxFlex>
+    <div fxFlex="20">
+        <app-sidebar fxFlex></app-sidebar>
+    </div>
+    <div fxFlex="80" class="content">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<app-footer flexLayout="column"></app-footer> -->
+
+<!-- display whole page -->
+
+<app-header (toggleSideBarForMe)="sideBarToggler()"></app-header>
+<mat-drawer-container>
+    <mat-drawer mode="side" [opened]="sideBarOpen">
+        <app-sidebar></app-sidebar>
+    </mat-drawer>
+    <mat-drawer-content>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>
+<app-footer></app-footer>

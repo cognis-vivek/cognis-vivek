@@ -1,0 +1,107 @@
+<mat-toolbar>
+    <span>Supervise Assignment</span>
+</mat-toolbar>
+
+<!-- <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Class
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+            <mat-label>Class Name</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Assignment Date Range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date">
+                <input matEndDate placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-action-row>
+            <button mat-button color="primary">Submit</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion> -->
+<br>
+
+<mat-card>
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search" (keyup)="applyFilter($event)">
+    </mat-form-field>
+
+    <div>
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl.no</th>
+                <td mat-cell *matCellDef="let row">{{row.index}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="className">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Class</th>
+                <td mat-cell *matCellDef="let row">{{row.className}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="sectionHouseName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Section</th>
+                <td mat-cell *matCellDef="let row">{{row.sectionHouseName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="subjectName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
+                <td mat-cell *matCellDef="let row">{{row.subjectName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="assignDateTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Assign Date</th>
+                <td mat-cell *matCellDef="let row">{{row.assignDateTime}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Assignment&nbsp;Description</th>
+                <td mat-cell *matCellDef="let row">{{row.description}}</td>
+            </ng-container>
+            <ng-container matColumnDef="assignCompleteDateTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Complete&nbsp;Date</th>
+                <td mat-cell *matCellDef="let row">{{row.assignDateTime}}</td>
+            </ng-container>
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Assignment&nbsp;Title</th>
+                <td mat-cell *matCellDef="let row">{{row.title}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+                        <button mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: dataColumns;"></tr>
+        </table>
+        <mat-paginator [length]="assignmentArr.length" [pageSize]="5" [pageSizeOptions]="[1,5, 10, 25, 100]">
+
+        </mat-paginator>
+    </div>
+
+
+</mat-card>

@@ -1,0 +1,132 @@
+<mat-toolbar>
+    <span>Supervise Fees</span>
+</mat-toolbar>
+
+<mat-accordion>
+    <mat-expansion-panel [(expanded)]="panelOpenState" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Fees Detail
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+       
+        <mat-form-field>
+            <mat-label>Class</mat-label>
+            <mat-select (selectionChange)="onChangeClass($event)">
+                <mat-option *ngFor='let class of classSectionArr' [value]="class.getClassId()">{{class.getClassName()}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Student Reg.No.</mat-label>
+            <input matInput [(ngModel)]="studentId">
+        </mat-form-field>
+        <!-- <mat-form-field>
+            <mat-label>Fee Master</mat-label>
+                <mat-select  multiple>
+                        <mat-option value="1">Tuition Fee</mat-option>
+                        <mat-option value="2">Transport Fee</mat-option>
+                        <mat-option value="3">Sports Fee</mat-option>
+                        <mat-option value="4">Books and Accessorries</mat-option>
+                        <mat-option value="5">Development Fee</mat-option>
+                        <mat-option value="6">Exam Fee</mat-option>
+                        <mat-option value="7">Other</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+            <!-- <mat-select>
+                <mat-option value="1">Tuition Fee</mat-option>
+                <mat-option value="2">Transport Fee</mat-option>
+                <mat-option value="3">Sports Fee</mat-option>
+                <mat-option value="4">Books and Accessorries</mat-option>
+                <mat-option value="5">Development Fee</mat-option>
+                <mat-option value="6">Exam Fee</mat-option>
+                <mat-option value="7">Other</mat-option>
+            </mat-select> -->
+            <mat-form-field>
+                <mat-label>Amount</mat-label>
+                <input matInput [(ngModel)] = "paidAmount">
+            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Date </mat-label>
+            <input matInput [matDatepicker]="picker1" (dateChange)="onDateChanged($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-action-row>
+            <button mat-button color="primary" (click) ="addStudentFee()">Submit</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+<br>
+
+<mat-card>
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search" (keyup)="applyFilter($event)">
+    </mat-form-field>
+
+
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl.no</th>
+            <td mat-cell *matCellDef="let row">{{row.index}}</td>
+        </ng-container>
+        <ng-container matColumnDef="regdNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Student&nbsp;Reg.&nbsp;No.</th>
+            <td mat-cell *matCellDef="let row">{{row.regdNo}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="studentName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Student&nbsp;Name</th>
+            <td mat-cell *matCellDef="let row">{{row.studentName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="className">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Class&nbsp;Name</th>
+            <td mat-cell *matCellDef="let row">{{row.className}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dueAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Due&nbsp;Amount</th>
+            <td mat-cell *matCellDef="let row">{{row.dueAmount}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total&nbsp;Amount</th>
+            <td mat-cell *matCellDef="let row">{{row.totalAmount}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentFinalDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment&nbsp;Date</th>
+            <td mat-cell *matCellDef="let row">{{row.paymentFinalDate}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)='panelOpenState=panelOpenState?false:true'>
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+                    <button mat-menu-item>
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+                </mat-menu>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: dataColumns;"></tr>
+    </table>
+    <mat-paginator [length]="studentFeeDetailsArr.length" [pageSize]="5" [pageSizeOptions]="[1,5, 10, 25, 100]">
+
+    </mat-paginator>
+
+
+
+</mat-card>

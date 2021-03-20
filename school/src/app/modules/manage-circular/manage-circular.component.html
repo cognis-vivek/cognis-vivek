@@ -1,0 +1,80 @@
+<mat-toolbar>
+    <span>Supervise Circular</span>
+</mat-toolbar>
+<mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Circular
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+            <mat-label>Message Subject</mat-label>
+            <input matInput [(ngModel)]="msgSubject">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Enter Message</mat-label>
+            <input matInput maxlength="500" [(ngModel)]="msgBody">
+            <!-- <textarea matInput maxlength="500" [(ngModel)]="msgBody"></textarea> -->
+        </mat-form-field>
+        <mat-action-row>
+            <button mat-button color="primary"(click)="addCircular()">Submit</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<br>
+
+<mat-card>
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search" (keyup)="applyFilter($event)">
+    </mat-form-field>
+
+    <div>
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="messageId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                <td mat-cell *matCellDef="let element">{{element.messageId}}</td>
+            </ng-container>
+            <ng-container matColumnDef="messageSubject">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
+                <td mat-cell *matCellDef="let element">{{element.messageSubject}}</td>
+            </ng-container>
+            <ng-container matColumnDef="messageBody">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Message</th>
+                <td mat-cell *matCellDef="let element">{{element.messageBody}}</td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+                <td mat-cell *matCellDef="let element">{{element.date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                        <button mat-menu-item>
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [length]="circularArr.length" [pageSize]="5" [pageSizeOptions]="[1,5, 10, 25, 100]">
+
+        </mat-paginator>
+    </div>
+
+
+</mat-card>

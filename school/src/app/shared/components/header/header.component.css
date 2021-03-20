@@ -1,0 +1,12 @@
+/* header {
+    padding: 20px;
+    background: skyblue;
+} */
+
+ul li {
+    list-style: none;
+}
+
+mat-drawer-content {
+    padding: 20px;
+}

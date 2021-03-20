@@ -1,0 +1,39 @@
+<mat-toolbar>
+    <span>Registration</span>
+</mat-toolbar>
+<mat-card class="my-card">
+    <mat-card-content>
+        <form class="my-form">
+            <!--FORM FIELDS HERE-->
+            <mat-form-field class="full-width">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="First name" name="fname" required>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Designation</mat-label>
+                <input matInput placeholder="Last Name" name="lname" required>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Address</mat-label>
+                <input matInput placeholder="Address" name="address" required>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" name="email">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Password" name="password">
+            </mat-form-field>
+
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <!--REGISTER BUTTON HERE-->
+        <mat-card-actions>
+            <button mat-raised-button (click)="register()" color="primary">REGISTER</button>
+        </mat-card-actions>
+    </mat-card-actions>
+
+</mat-card>
