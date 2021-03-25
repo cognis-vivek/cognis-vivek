@@ -288,7 +288,6 @@ export class NonTeachingStaffComponent implements OnInit {
           new StaffDetails(
             this.schoolId,
             this.departmentId+'',
-            '',
             this.experience,
             this.joiningDate,
             this.fatherName,

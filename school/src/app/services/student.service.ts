@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StudentService {
-
+// 3.17.165.248
   public baseUrl = 'http://3.17.165.248:8080/';
   public sectionURLGet = 'SchoolWebApp/rest/sectionService';
   public sectionURLPost = 'SchoolWebApp/rest/sectionService';
@@ -30,6 +30,7 @@ export class StudentService {
   public getAllAssignmentURL = 'SchoolWebApp/rest/assignmentService/getAllAdmin';
   public getAllLeavesURL = 'SchoolWebApp/rest/leavesservice/allListForAdmin';
   public examResultURL = 'SchoolWebApp/rest/examresult/listOfStudent';
+  public addStudentExamResult = 'SchoolWebApp/rest/examresult';
   public timeTableURL = 'SchoolWebApp/rest/timeTableService';
   constructor(public http: HttpClient) {
   }
@@ -189,8 +190,8 @@ export class StudentService {
         return this.http.get(this.baseUrl + url + '?schoolId=' + schoolId);
       }
       // Getting ExamResult
-      public getExamResultByYear(url: string, schoolId: any, createdDate: any,examresultId: any): Observable<object>{
-        return this.http.get(this.baseUrl + url + '?schoolId=' + schoolId + '&createdDate=' + createdDate + '&examresultId=' + examresultId);
+      public getExamResultByYear(url: string, schoolId: any, createdDate: any): Observable<object>{
+        return this.http.get(this.baseUrl + url + '?schoolId=' + schoolId + '&createdDate=' + createdDate);
       }
       
       // Posting Student Exam Result by subject

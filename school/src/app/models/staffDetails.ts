@@ -1,7 +1,6 @@
 export class StaffDetails{
     schoolId: any;
     departmentId: any;
-    staffId: any;
     experience: any;
     joiningDate: any;
     fatherName: any;
@@ -10,7 +9,6 @@ export class StaffDetails{
     constructor(
         schoolId: any,
         departmentId: any,
-        staffId: any,
         experience: any,
         joiningDate: any,
         fatherName: any,
@@ -18,7 +16,6 @@ export class StaffDetails{
     ){
         this.schoolId = schoolId;
         this.departmentId = departmentId;
-        this.staffId = staffId;
         this.experience = experience;
         this.joiningDate = joiningDate;
         this.fatherName = fatherName;
@@ -31,10 +28,6 @@ export class StaffDetails{
     }
     public getDepartmentId(): any{
         return this.departmentId;
-    }
-
-    public getStaffId(): any{
-        return this.staffId;
     }
 
     public getExperience(): any{

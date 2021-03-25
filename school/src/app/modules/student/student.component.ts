@@ -99,8 +99,6 @@ export class StudentComponent implements OnInit {
   ngOnInit(): void {
     this.getStudentList();
     this.getAllSectionCall();
-    
-
   }
   applyFilter(event: any){
     const filterValue = (event.target as HTMLInputElement).value;
@@ -180,6 +178,7 @@ export class StudentComponent implements OnInit {
       JSON.parse(this.data, (key, value) =>{
         if(typeof key === 'string'){
           if(key.toString() === 'classList'){
+            this.dataExchangeService.classSectionArr = [];
             for(let i = 0; i < parsed.classList.length; i++){
                 for(let j = 0; j <parsed.classList[i].sectionList.length; j++){
                   for (let k = 0; k < this.sectionArr.length; k++){
@@ -254,7 +253,7 @@ export class StudentComponent implements OnInit {
     const body = new StudentGeneralInfo(
           '',
           this.studentPhoneNo,
-          '12345',
+          '',
           new Role('1'),
           this.firstName,
           this.middleName,
@@ -287,7 +286,8 @@ export class StudentComponent implements OnInit {
             this.fatherPhoneNo,
             this.motherPhoneNo,
             this.fatherName,
-            this.motherName
+            this.motherName,
+            ""
           )
     );
     console.log('body', body);
@@ -297,6 +297,7 @@ export class StudentComponent implements OnInit {
       this.data = JSON.stringify(resData);
       
       console.log('Res', this.data);
+      this.getStudentList();
     }, err =>{
       this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
       console.log('Error', this.error);
@@ -313,6 +314,7 @@ export class StudentComponent implements OnInit {
       JSON.parse(this.data, (key, value) => {
         if(typeof key === 'string'){
           if(key === 'allStudentList'){
+            this.studentRowDataArr = [];
             this.dataExchangeService.studentGeneralInfoArr = [];
             for(let i = 0; i < parsed.allStudentList.length; i++){
               this.dataExchangeService.saveStudentRowData(new StudentRowData(
@@ -352,46 +354,6 @@ export class StudentComponent implements OnInit {
               console.log("Row Data =>", this.studentRowDataArr);
 
               
-              // this.dataExchangeService.saveStudentData(new StudentGeneralInfo(
-              //   (i+1),
-              //   parsed.allStudentList[i].parentModel.fatherPhoneNO,
-              //   '',
-              //   new Role('1'),
-              //   parsed.allStudentList[i].firstName,
-              //   parsed.allStudentList[i].middleName,
-              //   parsed.allStudentList[i].lastName,
-              //   parsed.allStudentList[i].gender,
-              //   parsed.allStudentList[i].bloodGrp,
-              //   parsed.allStudentList[i].religion,
-              //   parsed.allStudentList[i].dob,
-              //   parsed.allStudentList[i].email,
-              //   parsed.allStudentList[i].nationality,
-              //   new Address(
-              //     parsed.allStudentList[i].address.address1,
-              //     parsed.allStudentList[i].address.address2,
-              //     parsed.allStudentList[i].address.city,
-              //     parsed.allStudentList[i].address.district,
-              //     parsed.allStudentList[i].address.country,
-              //     parsed.allStudentList[i].address.state,
-              //     parsed.allStudentList[i].address.location,
-              //     parsed.allStudentList[i].address.postalcode
-              //   ),
-              //   new StudentDetails(
-              //     this.schoolId,
-              //     parsed.allStudentList[i].studentId,
-              //     parsed.allStudentList[i].classModel.classId,
-              //     parsed.allStudentList[i].regdNo,
-              //     parsed.allStudentList[i].sectionModel.sectionId
-              //   ),
-              //   new Parent(
-              //     '3',
-              //     parsed.allStudentList[i].parentModel.fatherPhoneNO,
-              //     parsed.allStudentList[i].parentModel.motherPhoneNO,
-              //     parsed.allStudentList[i].parentModel.fatherName,
-              //     parsed.allStudentList[i].parentModel.fatherName
-              //   )
-              //  )
-              // );
             }
             this.studentGeneralInfoArr = this.dataExchangeService.getStudentList();
             // this.dataSource = new MatTableDataSource(this.studentGeneralInfoArr);
@@ -415,7 +377,6 @@ export class StudentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
     console.log('The dialog was closed');
-
     });
     }
 }

@@ -143,7 +143,7 @@ typeofexam: 'First Post',
 
   // Getting Exam Results
   getExamResults(){
-    this.student.getExamResultByYear(this.student.examResultURL,1,'2021',1).subscribe((resData) =>{
+    this.student.getExamResultByYear(this.student.examResultURL,this.schoolId,'2021').subscribe((resData) =>{
       let parsed = JSON.parse(JSON.stringify(resData));
       // parsed.childList
       this.data = JSON.stringify(resData);
@@ -208,11 +208,12 @@ typeofexam: 'First Post',
       createdDate: this.createdDate
     }
     console.log('Add Exam Body => ',body);
-    this.student.postExamResult(this.student.examResultURL,body).subscribe((resData) =>{
+    this.student.postExamResult(this.student.addStudentExamResult,body).subscribe((resData) =>{
       let parsed = JSON.parse(JSON.stringify(resData));
       // parsed.childList
       this.data = JSON.stringify(resData);
       console.log('Exam Results => ', this.data);
+      this.getExamResults();
     },
     err =>{
       this.error = 'An error occurred, Status:' + err.status, + ' Message:' + err.statusText;

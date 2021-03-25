@@ -6,6 +6,7 @@ export class Parent{
     motherPhoneNO: any;
     fatherName: any;
     motherName: any;
+    password: any;
 
 
     constructor(
@@ -13,13 +14,15 @@ export class Parent{
         fatherPhoneNO: any,
         motherPhoneNO: any,
         fatherName: any,
-        motherName: any
+        motherName: any,
+        password: any
     ){
         this.role = role;
         this.fatherPhoneNO = fatherPhoneNO;
         this.motherPhoneNO = motherPhoneNO;
         this.fatherName = fatherName;
         this.motherName = motherName;
+        this.password = password;
     }
 
     // Getters
@@ -41,5 +44,9 @@ export class Parent{
 
     public getMotherName(): any{
         return this.motherName;
+    }
+
+    public getPassword(): any{
+        return this.password;
     }
 }

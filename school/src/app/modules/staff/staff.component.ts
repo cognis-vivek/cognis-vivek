@@ -176,7 +176,7 @@ export class StaffComponent implements OnInit {
              
             } 
             this.staffGeneralInfoArr = this.dataExchangeService.getStaffGenInfoList();
-            console.log('Staff List', this.staffGeneralInfoArr); 
+            console.log('Staff List', this.staffGeneralInfoArr+""); 
           } 
       });
     },
@@ -225,7 +225,7 @@ export class StaffComponent implements OnInit {
   addTeacher(){
     const body = new StaffGeneralInfo(
         this.phoneNo,
-        '12345',
+        '',
         new Role('2'),
         this.firstName,
         this.middleName,
@@ -250,7 +250,6 @@ export class StaffComponent implements OnInit {
         new StaffDetails(
           this.schoolId,
           this.departmentId+'',
-          '',
           this.experience,
           this.joiningDate,
           this.fatherName,
@@ -264,6 +263,7 @@ export class StaffComponent implements OnInit {
       // parsed.childList
       this.data = JSON.stringify(resData);
       console.log('Staff Res', this.data);
+      this.getAllStaff();
     },
     err =>{
       this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;

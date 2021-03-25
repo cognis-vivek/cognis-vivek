@@ -157,6 +157,7 @@ export class ManageFeesDetailsComponent implements OnInit {
       // parsed.childList
       this.data = JSON.stringify(resData);
       console.log('Fee Res', this.data);
+      this.getStudentFees();
     },
       err =>{
         this.error = 'An error occurred, Status:' + err.status, + ' Message:' + err.statusText;

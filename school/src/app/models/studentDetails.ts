@@ -2,20 +2,20 @@ export class StudentDetails{
    schoolId: any;
    studentId: any;
    classId: any;
-   rollNo: any;
+   regdNo: any;
    sectionId: any;
 
    constructor(
     schoolId: any,
     studentId: any,
     classId: any,
-    rollNo: any,
+    regdNo: any,
     sectionId: any
    ){
     this.schoolId = schoolId;
     this.studentId = studentId;
     this.classId = classId;
-    this.rollNo = rollNo;
+    this.regdNo = regdNo;
     this.sectionId = sectionId;
 
    }
@@ -30,8 +30,8 @@ export class StudentDetails{
    public getClassId(): any{
        return this.classId;
    }
-   public getRollNo(): any{
-       return this.rollNo;
+   public getRegNo(): any{
+       return this.regdNo;
    }
    public getSectionId(): any{
        return this.sectionId;

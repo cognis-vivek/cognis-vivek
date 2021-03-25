@@ -1,12 +1,12 @@
 <mat-toolbar>
-    <span>Supervise Fees</span>
+    <span>Supervise Fee Details</span>
 </mat-toolbar>
 
 <mat-accordion>
     <mat-expansion-panel [(expanded)]="panelOpenState" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Fees Detail
+                Fees Details
             </mat-panel-title>
         </mat-expansion-panel-header>
        
@@ -126,7 +126,5 @@
     <mat-paginator [length]="studentFeeDetailsArr.length" [pageSize]="5" [pageSizeOptions]="[1,5, 10, 25, 100]">
 
     </mat-paginator>
-
-
 
 </mat-card>

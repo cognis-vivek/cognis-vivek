@@ -92,6 +92,7 @@ export class ManageSectionComponent implements OnInit {
       JSON.parse(this.data, (key, value) =>{
           if(typeof key === 'string'){
             if(key.toString() === 'sectionList'){
+              this.sectionArr = [];
               this.dataExchangeService.sectionArr = [];
               for(let i = 0; i<parsed.sectionList.length; i++){
                 this.dataExchangeService.saveSection(new Section(
@@ -128,12 +129,15 @@ export class ManageSectionComponent implements OnInit {
       // parsed.childList
       this.data = JSON.stringify(resData);
       console.log('Res', this.data);
+      this.getAllSectionCall();
     },
     err =>{
       this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
       console.log('ErrorRes', this.error);
     });
-    this.getAllSectionCall();
+    
   }
+
+
 
 }

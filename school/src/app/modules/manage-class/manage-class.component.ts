@@ -140,7 +140,7 @@ export class ManageClassComponent implements OnInit {
       // parsed.childList
       this.data = JSON.stringify(resData);
       console.log('Classess', this.data);
-      
+      this.getAllClasses();
     },
     err =>{
       this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
@@ -202,6 +202,8 @@ export class ManageClassComponent implements OnInit {
       JSON.parse(this.data, (key, value) =>{
         if(typeof key === 'string'){
           if(key.toString() === 'classList'){
+            this.classSectionArr = [];
+            this.dataExchangeService.classSectionArr = [];
             for(let i = 0; i < parsed.classList.length; i++){
                 for(let j = 0; j <parsed.classList[i].sectionList.length; j++){
                   for (let k = 0; k < this.sectionArr.length; k++){
