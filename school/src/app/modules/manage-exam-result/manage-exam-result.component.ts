@@ -109,6 +109,7 @@ typeofexam: 'First Post',
 
   openModal(regd_no: any){
     console.log(regd_no)
+    this.panelOpenState = true;
     // const dialogConfig = new MatDialogConfig();
     
   }

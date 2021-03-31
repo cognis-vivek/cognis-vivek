@@ -2,6 +2,8 @@ import { Role } from "./role";
 
 export class Parent{
     role: any;
+    guardianName: any;
+    guardianPhoneNo: any;
     fatherPhoneNO: any;
     motherPhoneNO: any;
     fatherName: any;
@@ -11,6 +13,8 @@ export class Parent{
 
     constructor(
         role: any,
+        guardianName: any,
+        guardianPhoneNo: any,
         fatherPhoneNO: any,
         motherPhoneNO: any,
         fatherName: any,
@@ -18,6 +22,8 @@ export class Parent{
         password: any
     ){
         this.role = role;
+        this.guardianName = guardianName;
+        this.guardianPhoneNo = guardianPhoneNo;
         this.fatherPhoneNO = fatherPhoneNO;
         this.motherPhoneNO = motherPhoneNO;
         this.fatherName = fatherName;
@@ -30,6 +36,13 @@ export class Parent{
         return this.role;
     }
 
+    public getGuardianName(): any{
+        return this.guardianName;
+    }
+
+    public getGuardianPhoneNo(): any{
+        return this.guardianPhoneNo;
+    }
     public getFatherPhoneNo(): any{
         return this.fatherPhoneNO;
     }

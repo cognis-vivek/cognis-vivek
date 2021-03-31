@@ -94,7 +94,6 @@ export class NonTeachingStaffComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-
     // Getting All the depart ment call
     getDepartMent(){
       this.student.getAllDepartment(this.student.departmentURL, 1).subscribe((resData) =>{
@@ -263,7 +262,7 @@ export class NonTeachingStaffComponent implements OnInit {
     addStaff(){
       const body = new StaffGeneralInfo(
           this.phoneNo,
-          '12345',
+          '',
           new Role('5'),
           this.firstName,
           this.middleName,
@@ -300,6 +299,7 @@ export class NonTeachingStaffComponent implements OnInit {
         // parsed.childList
         this.data = JSON.stringify(resData);
         console.log('Staff Res', this.data);
+        this.getAllStaff();
       },
       err =>{
         this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;

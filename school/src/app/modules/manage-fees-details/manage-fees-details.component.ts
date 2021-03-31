@@ -84,7 +84,6 @@ export class ManageFeesDetailsComponent implements OnInit {
     
    }
 
-
    ngOnInit(): void {
     
     this.getStudentFees();

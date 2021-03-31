@@ -64,6 +64,7 @@ import { DailyClassComponent } from '../../modules/daily-class/daily-class.compo
 
 
 
+
 @NgModule({
   declarations: [
     DefaultComponent,

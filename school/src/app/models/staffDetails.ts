@@ -5,6 +5,7 @@ export class StaffDetails{
     joiningDate: any;
     fatherName: any;
     motherName: any;
+    
 
     constructor(
         schoolId: any,

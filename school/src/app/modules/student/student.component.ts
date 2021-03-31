@@ -39,7 +39,7 @@ interface Ipost{
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit {
-
+  form!: FormGroup;
   picker1: any;
   sectionArr: Section[] = [];
   classSectionArr: ClassSection[] = [];
@@ -49,10 +49,13 @@ export class StudentComponent implements OnInit {
   error: any;
   urllink:string ="assets/img/image.jpg";
   panelOpenState = false;
+  addressInfoPannel = false;
   hide = true;
   // options: FormGroup;
   colorControl = new FormControl('primary');
   fontSizeControl = new FormControl(16, Validators.min(10));
+  // Email Error message
+  // fatherEmail = new FormControl('',[Validators.required, Validators.email]);
   dataSource!: MatTableDataSource<StudentRowData>;
   posts!: Ipost[];
   // column: string[] = ['id', 'regdNo', 'firstName', 'middleName', 'lastName','dob','email','religion', 'actions'];
@@ -61,10 +64,10 @@ export class StudentComponent implements OnInit {
                            'postalcode', 'location','state','country','fatherName','motherName','fatherPhoneNO',
                            'motherPhoneNO','className','sectionHouseName','actions'];
   // For Create student details
-  firstName: any; middleName: any; lastName: any; fatherName: any; fatherPhoneNo: any; fatherEmail: any;
-  motherName: any; motherPhoneNo: any; matherEmail: any; studentPhoneNo: any; localAddress: any; district: any;
+  firstName: any; middleName: any; lastName: any; fatherName: any; fatherPhoneNo=''; fatherEmail: any;
+  motherName: any; motherPhoneNo=''; matherEmail: any; studentPhoneNo: any; localAddress: any; district: any;
   location: any; state: any; city: any; postalCode: any; nationality: any; country: any;
-  gender: any; religion: any; bloodGrp: any; classId: any; sectionId: any; dob: any; schoolId ='1';
+  gender: any; religion=''; bloodGrp: any; classId: any; sectionId=''; dob: any; schoolId ='1';
   genderArr: string[] = ['Male','Female','Other'];
   relegionArr: string[] = ['Hindu','Muslim','Christian','Other'];
   bloodGroupArr: string[] = ['O+','O-','A+','A-','B+','B-','AB+','AB-'];
@@ -72,12 +75,39 @@ export class StudentComponent implements OnInit {
   studentRowDataArr: StudentRowData[] = [];
 
 
+
 @ViewChild(MatSort, { static: true }) sort!: MatSort;
 @ViewChild( MatPaginator, { static: true }) paginator!: MatPaginator;
 
+    sfirstName = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
+    sMiddleName = new FormControl('', [Validators.pattern('[a-zA-Z ]*')]);
+    sLastName = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
+    sFatherName = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
+    sMotherName = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
+    sGuardianName = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
+    sGuardianPhone = new FormControl('', [Validators.required, Validators.minLength(10),Validators.pattern('^[0-9]*$')]);
+    sGuardianEmail = new FormControl('', [Validators.required,Validators.email]);
+    sStudentPhoneNo = new FormControl('', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]);
+    sDateOfBirth = new FormControl('', [Validators.required]);
+    sBloodGroup = new FormControl('', [Validators.required]);
+    sGender = new FormControl('', [Validators.required]);
+    sReligion = new FormControl('', [Validators.pattern('[a-zA-Z ]*')]);
+    sClass = new FormControl('', [Validators.required]);
+    sEmergencyPhone = new FormControl('', [Validators.required, Validators.minLength(10),Validators.pattern('^[0-9]*$')]);
+    sAddress = new FormControl('', [Validators.required]);
+    sDist = new FormControl('', [Validators.required]);
+    sLocation = new FormControl('', [Validators.required]);
+    sState = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
+    sCity = new FormControl('', [Validators.required]);
+    sPostalCode = new FormControl('', [Validators.required, Validators.minLength(6),Validators.pattern('^[0-9]*$')]);
+    sNationality = new FormControl('', [Validators.required]);
+    sCountry = new FormControl('', [Validators.required]);
+    step = 0;
+
+
   constructor(
     private dialog: MatDialog,
-    fb: FormBuilder,
+    private fb: FormBuilder,
     private http: HttpClient,
     private student: StudentService,
     private dataExchangeService: DataExchangeService,
@@ -91,9 +121,6 @@ export class StudentComponent implements OnInit {
     this.data = '';
     this.error = '';
      // This data should be coming from an API using Angular Service
- 
-
-
 }
 
   ngOnInit(): void {
@@ -111,6 +138,7 @@ export class StudentComponent implements OnInit {
   openPanel(){
     console.log('click !')
     this.panelOpenState = true;
+    this.addressInfoPannel = true;
     
   }
 
@@ -126,14 +154,249 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  
+  // getErrorMessage() {
+  //   if (this.email.hasError('required')) {
+  //     return 'You must enter an email';
+  //   }
+  //   return this.email.hasError('email') ? 'Not a valid email' : '';
+  // }
 
-  getErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+  // For Phone
+  // keyPress(event: any) {
+  //   const pattern = /[0-9]/;
+  //   let inputChar = String.fromCharCode(event.charCode);
+  //     if (!pattern.test(inputChar)) {
+  //         event.preventDefault();
+  //     }
+  //   }
+
+  
+
+  setStep(index: number) {
+    this.step = index;
   }
+
+  nextStep() {
+    // this.step++;
+    if(!this.sfirstName.valid){
+      console.log('First Name not valid');
+    }else if(!this.sLastName.valid){
+      console.log('Last Name not valid');
+    }else if(!this.sFatherName.valid){
+      console.log('Last Name not valid');
+    }else if(!this.sMotherName.valid){
+      console.log('Mother Name not valid');
+    }else if(!this.sGuardianName.valid){
+      console.log('Guardian Name not valid');
+    }else if(!this.sGuardianPhone.valid){
+      console.log('Guardian Phone not valid');
+    }else if(!this.sGuardianEmail.valid){
+      console.log('Guardian Phone not valid');
+    }else if(!this.sStudentPhoneNo.valid){
+      console.log('Student Phone not valid');
+    }else if(!this.sBloodGroup.valid){
+      console.log('Blood does not exist');
+    }else if(!this.sGender.valid){
+      console.log('Gender does not exist');
+    }else if(!this.sClass.valid){
+      console.log('Class not exist');
+    }else if(!this.sEmergencyPhone.valid){
+      console.log("Emergency number not exist");
+    }else{
+      this.step++;
+    }
+
+    // if(this.sfirstName.con === null){
+    //   console.log('err occured')
+    // }else{
+    //   this.step++;
+    // }
+    
+  }
+
+  prevStep() {
+    if(this.step < 0){
+      this.setStep(0);
+    }else{
+      this.step--;
+    }
+  }
+
+  // First Name Error 
+  getFirstNameError(){
+    // this.sfirstName.setValue("Vu");
+    if (this.sfirstName.hasError('required')) {
+      return 'You must enter first name';
+    }
+    return this.sfirstName.hasError('sFirstName') ? 'Not valid first name' : '';
+  }
+
+  // Middle name error
+  getMiddleNameError(){
+    // return this.sMiddleName.hasError('sMiddleName') ? 'Not valid middle name' : '';
+    if (this.sMiddleName.hasError('sMiddleName')) {
+      return 'You must enter Character';
+    }
+  }
+  // Last Name Error
+  getLastNameError(){
+    if (this.sLastName.hasError('required')) {
+      return 'You must enter last name';
+    }
+    return this.sLastName.hasError('sLastName') ? 'Not valid last name' : '';
+  }
+  // Father Name Error
+  getFatherNameError(){
+    if (this.sFatherName.hasError('required')) {
+      return 'You must enter Father name';
+    }
+    return this.sFatherName.hasError('sFatherName') ? 'Not valid Father name' : '';
+  }
+  // Mother Name Error
+  getMotherNameError(){
+    if (this.sMotherName.hasError('required')) {
+      return 'You must enter Mother name';
+    }
+    return this.sMotherName.hasError('sMotherName') ? 'Not valid Mother name' : '';
+  }
+  // Getting Guardian Name Error
+  getGurdianNameError(){
+    if (this.sGuardianName.hasError('required')) {
+      return 'You must enter Guardian name';
+    }
+    return this.sGuardianName.hasError('sGuardianName') ? 'Not valid Guardian name' : '';
+  }
+  // Getting Guardian Phone Error
+  getGuardianPhoneError(){
+    if (this.sGuardianPhone.hasError('required')) {
+      return 'You must enter Guardian phone';
+    }
+    return this.sGuardianPhone.hasError('sGuardianPhone') ? 'Not valid Guardian phone' : '';
+  }
+  // Getting Guardian Email Error
+  getGUardianEmailError(){
+    if (this.sGuardianEmail.hasError('required')) {
+      return 'You must enter an email';
+    }
+    return this.sGuardianEmail.hasError('sGuardianEmail') ? 'Not valid Guardian email' : '';
+  }
+  // Getting Student phone Error
+  getStudentPhoneError(){
+    if (this.sStudentPhoneNo.hasError('required')) {
+      return 'You must enter different phone number';
+    }
+    return this.sStudentPhoneNo.hasError('sStudentPhoneNo') ? 'Not valid Student phone' : '';
+  }
+  // Getting Date of birth error
+  getDateOfBirthError(){
+    if (this.sDateOfBirth.hasError('required')) {
+      return 'You must enter Date of birth';
+    }
+  }
+  // Getting Blood Group Error
+  getBloodGroupError(){
+    if (this.sBloodGroup.hasError('required')) {
+      return 'You must enter Blood group';
+    }
+  }
+  // Getting Gender Error
+  getGenderError(){
+    if (this.sGender.hasError('required')) {
+      return 'You must enter gender';
+    }
+  }
+  // Getting Class Error
+  getClassError(){
+    if (this.sClass.hasError('required')) {
+      return 'You must enter class';
+    }
+  }
+  // Getting Religion Error
+  getReligionMessageError(){
+    if (this.sReligion.hasError('sReligion')) {
+      return 'You must enter Character';
+    }
+    
+  }
+  // Getting Emergency Phone Error
+  getEmergencyPhone(){
+    if (this.sEmergencyPhone.hasError('required')) {
+      return 'You must enter Emergency phone';
+    }
+    return this.sEmergencyPhone.hasError('sEmergencyPhone') ? 'Not valid Emergency phone' : '';
+  }
+
+  // Getting Address Error
+  getAddressError(){
+    if (this.sAddress.hasError('required')) {
+      return 'You must enter Address';
+    }
+  }
+  // Getting Dist Error 
+  getDistError(){
+    if (this.sDist.hasError('required')) {
+      return 'You must enter District';
+    }
+  }
+  // Getting State Error
+  getStateError(){
+    if (this.sState.hasError('required')) {
+      return 'You must enter State';
+    }
+  }
+  // Getting City Error
+  getCityError(){
+    if (this.sCity.hasError('required')) {
+      return 'You must enter City';
+    }
+  }
+
+  // Getting Postal Code Error
+  getPostalCodeError(){
+    if (this.sPostalCode.hasError('required')) {
+      return 'You must enter Postal code';
+    }
+    return this.sPostalCode.hasError('sPostalCode') ? 'Not valid' : '';
+  }
+  // Getting Nationality
+  getNationalityError(){
+    if (this.sNationality.hasError('required')) {
+      return 'You must enter Nationality';
+    }
+  }
+  // Getting Country Error
+  getCountryError(){
+    if (this.sCountry.hasError('required')) {
+      return 'You must enter Country';
+    }
+  }
+
+
+  // Saving General Info
+  saveGenInfo(){
+    this.nextStep();
+  }
+
+  // Saving Address
+  saveAddress(){
+    
+  }
+
+
+  
+  
+  
+  
+  // // Phone Error Message
+  // getPhoneError(){
+  //   if (this.phone.hasError('required')) {
+  //     return 'You must enter a phone number';
+  //   }
+  //   return this.email.hasError('phone') ? 'Not a valid number' : '';
+  // }
+
+
   getFontSize() {
     return Math.max(10, this.fontSizeControl.value);
   }
@@ -250,43 +513,48 @@ export class StudentComponent implements OnInit {
 
   // Saving Student
   saveStudent(){
+    // this.prevStep();
+    console.log('First Name ', this.sfirstName.value);
     const body = new StudentGeneralInfo(
           '',
-          this.studentPhoneNo,
+          this.sStudentPhoneNo.value,
           '',
           new Role('1'),
-          this.firstName,
-          this.middleName,
-          this.lastName,
-          this.gender,
-          this.bloodGrp,
+          this.sfirstName.value,
+          this.sMiddleName.value,
+          this.sLastName.value,
+          this.sGender.value,
+          this.sBloodGroup.value,
           this.religion,
           this.dob,
-          this.fatherEmail, // Instead of Student Email
-          this.nationality,
+          this.sGuardianEmail.value, // Instead of Student Email
+          this.sNationality.value,
+          this.sEmergencyPhone.value,
           new Address(
-            this.localAddress,
-            this.localAddress,
-            this.city,
-            this.district,
-            this.country,
-            this.state,
+            this.sAddress.value,
+            this.sAddress.value,
+            this.sCity.value,
+            this.sDist.value,
+            this.sCountry.value,
+            this.sState.value,
             this.location,
-            this.postalCode
+            this.sPostalCode.value
           ),
           new StudentDetails(
             this.schoolId,
             '',
-            this.classId,
+            this.sClass.value,
             '',
             this.sectionId
           ),
           new Parent(
             new Role('3'),
+            this.sGuardianName.value,
+            this.sGuardianPhone.value,
             this.fatherPhoneNo,
             this.motherPhoneNo,
-            this.fatherName,
-            this.motherName,
+            this.sFatherName.value,
+            this.sMotherName.value,
             ""
           )
     );

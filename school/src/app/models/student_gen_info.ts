@@ -20,6 +20,7 @@ export class StudentGeneralInfo{
         dob: any;
         email: any;
         nationality: any;
+        emergencyNo: any;
         address: Address | undefined;
         studentModel: StudentDetails | undefined;
         parent: Parent | undefined;
@@ -38,6 +39,7 @@ export class StudentGeneralInfo{
                 dob: any,
                 email: any,
                 nationality: any,
+                emergencyNo: any,
                 address: Address | undefined,
                 studentModel: StudentDetails | undefined,
                 parent: Parent | undefined
@@ -55,6 +57,7 @@ export class StudentGeneralInfo{
                 this.dob = dob;
                 this.email = email;
                 this.nationality = nationality;
+                this.emergencyNo = emergencyNo;
                 this.address = address;
                 this.studentModel = studentModel;
                 this.parent = parent; 
@@ -105,6 +108,9 @@ export class StudentGeneralInfo{
         }
         public getNationality(): any{
             return this.nationality;
+        }
+        public getEmergencyNo(): any{
+            return this.emergencyNo;
         }
         public getAddress(): any{
             return this.address;

@@ -225,7 +225,7 @@ export class ManageClassComponent implements OnInit {
               let sections = '';
               localSectionArr = this.classSectionArr[j].getSectionArr();
               for(let k = 0; k < localSectionArr.length;k++){
-                  sections = localSectionArr[k].getSectionHouseName() +","+ sections
+                  sections = localSectionArr[k].getSectionHouseName() +"  "+ sections
               }
               this.classSectionDisplayArr.push(new ClassSectioDisplay(
                 this.classSectionArr[j].classId,
