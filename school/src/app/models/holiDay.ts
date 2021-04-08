@@ -1,15 +1,18 @@
 export class HoliDay{
+    index: any;
     holidayId: any;
     nameOfHoliday: any;
     fromDate: any;
     toDate: any;
 
     constructor(
+        index: any,
         holidayId: any,
         nameOfHoliday: any,
         fromDate: any,
         toDate: any
     ){
+        this.index = index;
         this.holidayId = holidayId;
         this.nameOfHoliday = nameOfHoliday;
         this.fromDate = fromDate;
@@ -17,6 +20,9 @@ export class HoliDay{
     }
 
     // Getters 
+    public getIndex(): any{
+        return this.index;
+    }
     public getHolidayId(): any{
         return this.holidayId;
     }

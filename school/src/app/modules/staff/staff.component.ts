@@ -512,40 +512,6 @@ getCountryError(){
         console.log('Error', this.error);
       });
     }
-    // const body = new StaffGeneralInfo(
-    //     this.phoneNo,
-    //     '',
-    //     new Role('2'),
-    //     this.firstName,
-    //     this.middleName,
-    //     this.lastName,
-    //     this.gender,
-    //     this.bloodGrp,
-    //     this.religion,
-    //     this.dob,
-    //     this.email,
-    //     this.nationality,
-    //     this.education,
-    //     new Address(
-    //       '',
-    //       this.localAddress,
-    //       this.localAddress,
-    //       this.city,
-    //       this.district,
-    //       this.country,
-    //       this.state,
-    //       this.location,
-    //       this.postalCode
-    //     ),
-    //     new StaffDetails(
-    //       this.schoolId,
-    //       this.departmentId+'',
-    //       this.experience,
-    //       this.joiningDate,
-    //       this.fatherName,
-    //       this.motherName
-    //     )
-    // );
     
   }
 
@@ -585,5 +551,30 @@ getCountryError(){
     this.tCountry.setValue(this.staffRowArr[this.updateIndex].country);
     this.setStep(0);
   }
+
+   // Deleting Teaching staff
+   deleteTeachingStaff(index: any){
+    for(let i = 0; i < this.staffRowArr.length;i++){
+      if(index === this.staffRowArr[i].index){
+        const body = {
+              userId: this.staffRowArr[i].userId,
+              userActiveInactiveStatus: 'I'
+        };
+        console.log('Body3', body);
+        this.student.deleteUser(this.student.deleteUserURL,body).subscribe((resData)=>{
+          let parsed = JSON.parse(JSON.stringify(resData));
+          // parsed.childList
+          this.data = JSON.stringify(resData);
+          console.log('Updated Status', this.data);
+          this.getAllStaff();
+        }, err =>{
+          this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+          console.log('Error', this.error);
+        });
+        break;
+      }
+    }
+  }
+
 
 }

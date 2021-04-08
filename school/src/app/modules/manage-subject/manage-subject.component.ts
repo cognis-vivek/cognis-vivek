@@ -126,7 +126,7 @@ date: '16-12-2020'
       subjectContent:'Logical',
       writterName:'Amit Dhar',
       optional:'no',
-      file: this.selectedFiles,
+      file: this.selectedFiles[0],
       schoolId:'1'
     };
     console.log('body', body);

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class StudentService {
 // 3.17.165.248
   public baseUrl = 'http://localhost:8080/';
+  public deleteUserURL = 'SchoolWebApp/rest/userService/updateUserStatus';
   public sectionURLGet = 'SchoolWebApp/rest/sectionService';
   public sectionURLPost = 'SchoolWebApp/rest/sectionService';
   public sectionURLPUT = this.sectionURLPost + '/updateSection';
@@ -63,6 +64,10 @@ export class StudentService {
     });
   }
  
+      // deleting User
+      public deleteUser(url: string, body: any): Observable<object>{
+        return this.http.post<any>(this.baseUrl + url, body);
+      }
       // Getting Section List
       public getSections(url: string, schoolId: any): Observable<object>{
         return this.http.get(this.baseUrl + url + '?schoolId=' + schoolId);

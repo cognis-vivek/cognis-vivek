@@ -92,7 +92,7 @@ export class ManageCircularComponent implements OnInit {
 
   // Getting All Circular
   getCircularList(){
-    this.student.getCircular(this.student.circularURL, 1).subscribe((resData) =>{
+    this.student.getCircular(this.student.circularURL, 38).subscribe((resData) =>{
       let parsed = JSON.parse(JSON.stringify(resData));
       // parsed.childList
       this.data = JSON.stringify(resData);
@@ -126,7 +126,7 @@ export class ManageCircularComponent implements OnInit {
   // Adding Circular
   addCircular(){
     const body ={
-      userId: 1,
+      userId: 38,
       messageSubject: this.msgSubject,
       messageBody: this.msgBody
     };

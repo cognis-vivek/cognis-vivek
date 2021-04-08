@@ -586,4 +586,28 @@ getCountryError(){
     this.tCountry.setValue(this.staffRowArr[this.updateIndex].country);
     this.setStep(0);
   }
+
+  // Deleting Teaching staff
+  deleteNonTeachingStaff(index: any){
+    for(let i = 0; i < this.staffRowArr.length;i++){
+      if(index === this.staffRowArr[i].index){
+        const body = {
+              userId: this.staffRowArr[i].userId,
+              userActiveInactiveStatus: 'I'
+        };
+        console.log('Body3', body);
+        this.student.deleteUser(this.student.deleteUserURL,body).subscribe((resData)=>{
+          let parsed = JSON.parse(JSON.stringify(resData));
+          // parsed.childList
+          this.data = JSON.stringify(resData);
+          console.log('Updated Status', this.data);
+          this.getAllStaff();
+        }, err =>{
+          this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+          console.log('Error', this.error);
+        });
+        break;
+      }
+    }
+  }
 }

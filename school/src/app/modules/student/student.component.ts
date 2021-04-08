@@ -547,7 +547,7 @@ export class StudentComponent implements OnInit {
               this.sDist.value,
               this.sCountry.value,
               this.sState.value,
-              this.location,
+              this.sLocation.value,
               this.sPostalCode.value
             ),
             new StudentDetails(
@@ -613,7 +613,7 @@ export class StudentComponent implements OnInit {
               this.sDist.value,
               this.sCountry.value,
               this.sState.value,
-              this.location,
+              this.sLocation.value,
               this.sPostalCode.value
             ),
             new StudentDetails(
@@ -746,8 +746,6 @@ export class StudentComponent implements OnInit {
           this.sGuardianEmail.setValue(this.studentRowDataArr[this.updateIndex].email);
           this.sStudentPhoneNo.setValue(this.studentRowDataArr[this.updateIndex].studentPhoneNo);
           this.dob = this.studentRowDataArr[this.updateIndex].dob;
-          // var momentVar = moment(this.studentRowDataArr[i].dob,'MM-DD-YYYY');
-          // console.log("Date6",this.datePipe.transform(this.studentRowDataArr[this.updateIndex].dob, 'yyyy-MM-dd'));
           this.sDateOfBirth.setValue(this.datePipe.transform(this.studentRowDataArr[this.updateIndex].dob, 'yyyy-MM-dd'));
           this.sBloodGroup.setValue(this.studentRowDataArr[this.updateIndex].bloodGrp);
           this.sGender.setValue(this.studentRowDataArr[this.updateIndex].gender);
@@ -758,12 +756,39 @@ export class StudentComponent implements OnInit {
           this.sAddress.setValue(this.studentRowDataArr[this.updateIndex].address1);
           this.sDist.setValue(this.studentRowDataArr[this.updateIndex].district);
           this.sLocation.setValue(this.studentRowDataArr[this.updateIndex].location);
-          this.sState.setValue(this.studentRowDataArr[this.updateIndex].fatherName);
+          this.sState.setValue(this.studentRowDataArr[this.updateIndex].state);
           this.sCity.setValue(this.studentRowDataArr[this.updateIndex].city);
           this.sPostalCode.setValue(this.studentRowDataArr[this.updateIndex].postalcode);
           this.sNationality.setValue(this.studentRowDataArr[this.updateIndex].nationality);
           this.sCountry.setValue(this.studentRowDataArr[this.updateIndex].country);
           this.setStep(0);
+  }
+
+  // Deleting Student
+  deleteStudent(index: any){
+    for(let i = 0; i < this.studentRowDataArr.length;i++){
+      if(index === this.studentRowDataArr[i].index){
+        // this.updateIndex = i;
+        // this.request = 1;
+        const body = {
+              userId: this.studentRowDataArr[i].studentUserId,
+              userActiveInactiveStatus: 'I'
+        };
+
+        console.log('Body3', body);
+        this.student.deleteUser(this.student.deleteUserURL,body).subscribe((resData)=>{
+          let parsed = JSON.parse(JSON.stringify(resData));
+          // parsed.childList
+          this.data = JSON.stringify(resData);
+          console.log('Updated Status', this.data);
+          this.getStudentList();
+        }, err =>{
+          this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+          console.log('Error', this.error);
+        });
+        break;
+      }
+    }
   }
 
   opencommon(){
