@@ -47,7 +47,7 @@
             <!-- <input matInput> -->
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Guardian Phone</mat-label>
+            <mat-label>Guardian Mobile no</mat-label>
             <input matInput placeholder="7406634617" [formControl]="sGuardianPhone" required>
             <mat-error *ngIf="sGuardianPhone.invalid">{{getGuardianPhoneError()}}</mat-error>
             <!-- <input matInput> -->
@@ -59,14 +59,16 @@
             <!-- <input matInput> -->
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Student Phone No.</mat-label>
+            <mat-label>Student Mobile no.</mat-label>
             <input matInput placeholder="8765432098" [formControl]="sStudentPhoneNo" required>
             <mat-error *ngIf="sStudentPhoneNo.invalid">{{getStudentPhoneError()}}</mat-error>
             <!-- <input matInput> -->
         </mat-form-field>
         <mat-form-field>
             <mat-label>Date of Birth</mat-label>
-            <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)" placeholder="23/04/2021" [formControl]="sDateOfBirth" required>
+            <input matInput [matDatepicker]="picker" 
+            (dateChange)="onDateChange($event)"
+            [formControl]="sDateOfBirth" required>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="sDateOfBirth.invalid">{{getDateOfBirthError()}}</mat-error>
@@ -90,22 +92,23 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Religion</mat-label>
-            <mat-select (selectionChange)="onChangeReligion($event)">
+            <mat-select (selectionChange)="onChangeReligion($event)"[formControl]="sReligion" required>
                 <mat-option *ngFor='let religion of relegionArr' [value]="religion">{{religion}}</mat-option>
             </mat-select>
+            <mat-error *ngIf="sReligion.invalid">{{getReligionMessageError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Class</mat-label>
-            <mat-select (selectionChange)="onChangeClass($event)" [formControl]="sClass" required>
+            <mat-select [(ngModel)]="className" (selectionChange)="onChangeClass($event)" [formControl]="sClass" required>
                 <mat-option *ngFor='let class of classSectionArr' [value]="class.getClassId()">{{class.getClassName()}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="sClass.errors">{{getClassError()}}</mat-error>
+            <mat-error *ngIf="sClass.invalid">{{getClassError()}}</mat-error>
             <!-- <input matInput> -->
         </mat-form-field>
         <mat-form-field>
             <mat-label>Section</mat-label>
-            <mat-select (selectionChange)="onChangeSection($event)">
-                <mat-option *ngFor='let section of filterSectionArr' [value]="section.getSectionId()">{{section.getSectionHouseName()}}</mat-option>
+            <mat-select [(ngModel)]="sectionName" (selectionChange)="onChangeSection($event)" [formControl]="sSection">
+                <mat-option *ngFor='let section of sectionArr' [value]="section.sectionId">{{section.sectionHouseName}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field>
@@ -348,6 +351,10 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Blood&nbsp;Group</th>
                 <td mat-cell *matCellDef="let row">{{row.bloodGrp}}</td>
             </ng-container>
+            <ng-container matColumnDef="studentPhoneNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Student&nbsp;Phone</th>
+                <td mat-cell *matCellDef="let row">{{row.studentPhoneNo}}</td>
+            </ng-container>
             <ng-container matColumnDef="address1">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Current&nbsp;Address</th>
                 <td mat-cell *matCellDef="let row">{{row.address1}}</td>
@@ -387,15 +394,15 @@
             </ng-container>
             <ng-container matColumnDef="motherName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Mother&nbsp;Name</th>
-                <td mat-cell *matCellDef="let row">{{row.location}}</td>
+                <td mat-cell *matCellDef="let row">{{row.motherName}}</td>
             </ng-container>
-            <ng-container matColumnDef="fatherPhoneNO">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Father&nbsp;Phone&nbsp;no</th>
-                <td mat-cell *matCellDef="let row">{{row.fatherPhoneNO}}</td>
+            <ng-container matColumnDef="guardianName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Guardian&nbsp;Name</th>
+                <td mat-cell *matCellDef="let row">{{row.guardianName}}</td>
             </ng-container>
-            <ng-container matColumnDef="motherPhoneNO">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Mother&nbsp;Phone&nbsp;no</th>
-                <td mat-cell *matCellDef="let row">{{row.motherPhoneNO}}</td>
+            <ng-container matColumnDef="guardianPhoneNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Guardian&nbsp;Phone&nbsp;no</th>
+                <td mat-cell *matCellDef="let row">{{row.guardianPhoneNo}}</td>
             </ng-container>
             <ng-container matColumnDef="className">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Class&nbsp;Name</th>
@@ -413,7 +420,7 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="prevStep()">
+                        <button mat-menu-item (click)="updateStudent(row.index)">
                                 <mat-icon>edit</mat-icon>
                                 <span>Edit</span>
                         </button>

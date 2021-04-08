@@ -10,8 +10,10 @@ export class StudentService {
   public baseUrl = 'http://localhost:8080/';
   public sectionURLGet = 'SchoolWebApp/rest/sectionService';
   public sectionURLPost = 'SchoolWebApp/rest/sectionService';
+  public sectionURLPUT = this.sectionURLPost + '/updateSection';
   public classesDetailsURL = 'SchoolWebApp/rest/classService';
   public saveStudentURL = 'SchoolWebApp/rest/generalService';
+  public updateStudentURL = this.saveStudentURL + '/updateGeneralService';
   public saveHoliDayURL = 'SchoolWebApp/rest/holidayService';
   public postSubjectSyllabusURL = 'SchoolWebApp/rest/subjectService';
   public examTypeURL = 'SchoolWebApp/rest/examresult/examtype';
@@ -24,6 +26,7 @@ export class StudentService {
   public departmentURL = 'SchoolWebApp/rest/teacherService/getAllDepartment/';
   public getAllStaffURL = 'SchoolWebApp/rest/teacherService/getAllStaff';
   public staffRegistrationURL = 'SchoolWebApp/rest/generalService/staffRegistration/';
+  public staffUpdateURL = 'SchoolWebApp/rest/generalService/staffUpdate';
   public examScheduleURL = 'SchoolWebApp/rest/examScheduleService';
   public nameOfFeeURL = 'SchoolWebApp/rest/configFeeService/getNameOfFee';
   public addStudentFeeURL ='SchoolWebApp/rest/feedetailsservice/';
@@ -67,6 +70,11 @@ export class StudentService {
 
       // Adding Section
       public postSection(url: string, body: any): Observable<object>{
+        return this.http.post<any>(this.baseUrl + url, body);
+      }
+
+      // Updating Section
+      public putSection(url: string, body: any): Observable<object>{
         return this.http.post<any>(this.baseUrl + url, body);
       }
 

@@ -1,4 +1,5 @@
 export class StudentDetails{
+   userId: any;
    schoolId: any;
    studentId: any;
    classId: any;
@@ -6,12 +7,14 @@ export class StudentDetails{
    sectionId: any;
 
    constructor(
+    userId: any,
     schoolId: any,
     studentId: any,
     classId: any,
     regdNo: any,
     sectionId: any
    ){
+    this.userId = userId;
     this.schoolId = schoolId;
     this.studentId = studentId;
     this.classId = classId;
@@ -21,6 +24,9 @@ export class StudentDetails{
    }
 
    // Getters 
+   public getUserId(): any{
+       return this.userId;
+   }
    public getSchoolId(): any{
        return this.schoolId;
    }

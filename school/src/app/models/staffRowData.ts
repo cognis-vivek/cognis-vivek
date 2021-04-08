@@ -1,5 +1,6 @@
 export class StaffRow{
     index: any;
+    userId: any;
     staffId: any;
     phoneNo: any;
     roleId: any;
@@ -27,9 +28,11 @@ export class StaffRow{
     experience: any;
     fatherName: any;
     motherName: any;
+    emergencyNo: any;
 
     constructor(
         index: any,
+        userId: any,
         staffId: any,
         phoneNo: any,
         roleId: any,
@@ -56,9 +59,11 @@ export class StaffRow{
         joiningDate: any,
         experience: any,
         fatherName: any,
-        motherName: any
+        motherName: any,
+        emergencyNo: any
     ){
         this.index=index;
+        this.userId = userId;
         this.staffId=staffId;
         this.phoneNo=phoneNo;
         this.roleId=roleId;
@@ -86,5 +91,7 @@ export class StaffRow{
         this.experience=experience;
         this.fatherName=fatherName;
         this.motherName=motherName;
+        this.emergencyNo = emergencyNo;
     }
+
 }

@@ -1,4 +1,5 @@
 export class StaffDetails{
+    userId: any;
     schoolId: any;
     departmentId: any;
     experience: any;
@@ -8,6 +9,7 @@ export class StaffDetails{
     
 
     constructor(
+        userId: any,
         schoolId: any,
         departmentId: any,
         experience: any,
@@ -15,6 +17,7 @@ export class StaffDetails{
         fatherName: any,
         motherName: any
     ){
+        this.userId = userId;
         this.schoolId = schoolId;
         this.departmentId = departmentId;
         this.experience = experience;

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { StudentService } from '../../services/student.service';
 import { DataExchangeService } from '../../services/data-exchange.service';
 import { Section } from 'src/app/models/section';
-
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 interface Ipost{
   id: string;
@@ -28,15 +28,19 @@ export class ManageSectionComponent implements OnInit {
   posts!: Ipost[];
   column: string[] = ['id', 'author', 'title', 'category', 'date', 'actions'];
   displayedColumns: string[] = ['sectionId', 'sectionHouseName','actions'];
+  step=0;
 
   panelOpenState = false;
   data: any;
   error: any;
   sectionName = '';
   sectionArr: Section[] = [];
+  request=0;
+  sectionObj!: Section;
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild( MatPaginator, { static: true }) paginator!: MatPaginator;
+  sSection = new FormControl('',[Validators.required,Validators.pattern('[a-zA-Z ]*')]);
 
 
   constructor(
@@ -73,6 +77,7 @@ export class ManageSectionComponent implements OnInit {
 }
 
   ngOnInit(): void {
+    this.request=0;
     // this.dataSource.sort =  this.sort;
     // this.dataSource.paginator = this.paginator;
     this.getAllSectionCall();
@@ -82,6 +87,54 @@ export class ManageSectionComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  setStep(index: number) {
+    this.step = index;
+  }
+  nextStep() {
+    this.step++;
+  }
+  prevStep(){
+    this.step--;
+  }
+
+  // Get Section Error
+  getSectionError(){
+    if (this.sSection.hasError('required')) {
+      return 'You must enter Section';
+    }
+    return this.sSection.hasError('sSection') ? 'Not valid section name' : '';
+  }
+
+
+  // Updating Section
+  updateSection(sectionId: any){
+    console.log("se ",sectionId);
+    for(let i = 0; i < this.sectionArr.length;i++){
+      if(sectionId === this.sectionArr[i].sectionId){
+        this.sectionObj = this.sectionArr[i];
+        this.setStep(0);
+        this.request = 1;
+        this.sectionName = this.sectionObj.sectionHouseName;
+        this.sSection.setValue(this.sectionName);
+        break;
+      }
+    }
+    // const body = {
+    //   sectionHouseName: this.sSection.value,
+    //   schoolId:"1",
+    //   sectionId: this.sectionObj.sectionId
+    // }
+    // this.student.putSection(this.student.sectionURLPost,body).subscribe(resData =>{
+    //   let parsed = JSON.parse(JSON.stringify(resData));
+    //   // parsed.childList
+    //   this.data = JSON.stringify(resData);
+    //   console.log("updated status > ", this.data);
+    // },
+    // err =>{
+    //   this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+    //   console.log('Error', this.error);
+    // });
+  }
 
   // Getting all the sections
   getAllSectionCall(){
@@ -107,7 +160,6 @@ export class ManageSectionComponent implements OnInit {
               this.dataSource.paginator = this.paginator;
               console.log('All Sections', this.sectionArr);
             }
-              
           }
       });
       // console.log('Data', this.data);
@@ -120,24 +172,38 @@ export class ManageSectionComponent implements OnInit {
 
   // Adding Section
   async addSection(){
-    const body= {
-      sectionHouseName: this.sectionName,
-      schoolId: 1
-    };
-    this.student.postSection(this.student.sectionURLPost, body).subscribe(resData =>{
-      let parsed = JSON.parse(JSON.stringify(resData));
-      // parsed.childList
-      this.data = JSON.stringify(resData);
-      console.log('Res', this.data);
-      this.getAllSectionCall();
-    },
-    err =>{
-      this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
-      console.log('ErrorRes', this.error);
-    });
-    
+    if(this.request === 1){
+      const body = {
+            sectionHouseName: this.sSection.value,
+            sectionId: this.sectionObj.sectionId
+          }
+          this.student.putSection(this.student.sectionURLPUT,body).subscribe(resData =>{
+            let parsed = JSON.parse(JSON.stringify(resData));
+            // parsed.childList
+            this.data = JSON.stringify(resData);
+            console.log("updated status > ", this.data);
+            this.getAllSectionCall();
+          },
+          err =>{
+            this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+            console.log('Error', this.error);
+          });
+    }else{
+      const body= {
+        sectionHouseName: this.sectionName,
+        schoolId: 1
+      };
+      this.student.postSection(this.student.sectionURLPost, body).subscribe(resData =>{
+        let parsed = JSON.parse(JSON.stringify(resData));
+        // parsed.childList
+        this.data = JSON.stringify(resData);
+        console.log('Res', this.data);
+        this.getAllSectionCall();
+      },
+      err =>{
+        this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+        console.log('ErrorRes', this.error);
+      });
+    }
   }
-
-
-
 }

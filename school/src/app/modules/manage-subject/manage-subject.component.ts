@@ -74,6 +74,7 @@ date: '16-12-2020'
   }
   selectFile(event:any) {
     this.selectedFiles = event.target.files;
+    console.log("file", this.selectedFiles);
   }
   
   // Getting Subjects with syllabus
@@ -119,13 +120,33 @@ date: '16-12-2020'
   }
   
   openPdf(){
+    const body={
+      classId: '2',
+      subjectName: 'Maths',
+      subjectContent:'Logical',
+      writterName:'Amit Dhar',
+      optional:'no',
+      file: this.selectedFiles,
+      schoolId:'1'
+    };
+    console.log('body', body);
+    this.student.postSubjectSyllabus(this.student.postSubjectSyllabusURL,body).subscribe((resData)=>{
+      let parsed = JSON.parse(JSON.stringify(resData));
+      // parsed.childList
+      this.data = JSON.stringify(resData);
+      console.log('success', this.data);
+    },
+    err =>{
+      this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+      console.log('ErrorRes', this.error);
+    });
     // let b64Data: any = '';
     // b64Data = b64Data.replace(/^[^,]+,/, '');
     // b64Data = b64Data.replace(/\s/g, '');
     // let file = new Blob([this.subjectSyllabusArr[0].getSyllabusFile()], { type: 'application/pdf' });            
     // var fileURL = URL.createObjectURL(file);
     // window.open(fileURL);
-    this.downloadPdf(this.subjectSyllabusArr[0].getSyllabusFile(),"sample");
+    // this.downloadPdf(this.subjectSyllabusArr[0].getSyllabusFile(),"sample");
   }  
 
 

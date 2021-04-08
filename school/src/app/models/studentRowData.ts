@@ -1,5 +1,6 @@
 export class StudentRowData{
     index: any;
+    studentUserId: any; // c
     studentId: any;
     regdNo: any;
     firstName: any;
@@ -11,6 +12,9 @@ export class StudentRowData{
     nationality: any;
     gender: any;
     bloodGrp: any;
+    studentPhoneNo: any;
+    emergencyNo: any;
+    addressUserId: any; // c
     address1: any;
     address2: any;
     district: any;
@@ -19,6 +23,9 @@ export class StudentRowData{
     location: any;
     state: any;
     country: any;
+    parentUserID: any; // c
+    guardianName: any; // c
+    guardianPhoneNo: any; // c
     fatherName: any;
     motherName: any;
     fatherPhoneNO: any;
@@ -30,6 +37,7 @@ export class StudentRowData{
 
     constructor(
         index: any,
+        studentUserId: any,
         studentId: any,
         regdNo: any,
         firstName: any,
@@ -41,6 +49,9 @@ export class StudentRowData{
         nationality: any,
         gender: any,
         bloodGrp: any,
+        studentPhoneNo: any,
+        emergencyNo: any,
+        addressUserId: any, //c 
         address1: any,
         address2: any,
         district: any,
@@ -49,6 +60,9 @@ export class StudentRowData{
         location: any,
         state: any,
         country: any,
+        parentUserID: any, // c
+        guardianName: any, // c
+        guardianPhoneNo: any, // c
         fatherName: any,
         motherName: any,
         fatherPhoneNO: any,
@@ -59,6 +73,7 @@ export class StudentRowData{
         sectionHouseName: any
     ){
         this.index = index;
+        this.studentUserId = studentUserId;
         this.studentId = studentId;
         this.regdNo = regdNo;
         this.firstName = firstName;
@@ -70,6 +85,9 @@ export class StudentRowData{
         this.nationality = nationality;
         this.gender = gender;
         this.bloodGrp = bloodGrp;
+        this.emergencyNo = emergencyNo;
+        this.studentPhoneNo = studentPhoneNo;
+        this.addressUserId = addressUserId;
         this.address1 = address1;
         this.address2 = address2;
         this.district = district;
@@ -78,6 +96,9 @@ export class StudentRowData{
         this.location = location;
         this.state = state;
         this.country = country;
+        this.parentUserID = parentUserID;
+        this.guardianName = guardianName;
+        this.guardianPhoneNo = guardianPhoneNo;
         this.fatherName = fatherName;
         this.motherName = motherName;
         this.fatherPhoneNO = fatherPhoneNO;

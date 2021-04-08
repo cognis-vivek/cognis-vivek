@@ -6,6 +6,7 @@ import { StudentDetails } from "./studentDetails";
 
 export class StudentGeneralInfo{
         index: any;
+        userId: any;
         studentPhoneNo: any;
         password: any;
         role: Role | undefined;
@@ -24,9 +25,9 @@ export class StudentGeneralInfo{
         address: Address | undefined;
         studentModel: StudentDetails | undefined;
         parent: Parent | undefined;
-
         constructor(
                 index: any,
+                userId: any,
                 studentPhoneNo: any,
                 password: any,
                 role: Role | undefined,
@@ -45,6 +46,7 @@ export class StudentGeneralInfo{
                 parent: Parent | undefined
         ){
                 this.index = index;
+                this.userId= userId;
                 this.studentPhoneNo = studentPhoneNo;
                 this.password = password;
                 this.role = role;
@@ -66,6 +68,10 @@ export class StudentGeneralInfo{
         // Getters
         public getIndex(): any{
             return this.index;
+        }
+
+        public getUserId(): any{
+            return this.userId;
         }
         public getStudentPhoneNo(): any{
             return this.studentPhoneNo;

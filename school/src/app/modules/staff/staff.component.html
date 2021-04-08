@@ -1,125 +1,182 @@
 <mat-toolbar>
     <span>Supervise Teaching Staff</span>
 </mat-toolbar>
-
+ 
 <mat-accordion>
-    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Teaching Staff
+                General Info
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-form-field>
             <mat-label>First Name</mat-label>
-            <input matInput [(ngModel)] ="firstName">
+            <!-- <input matInput [(ngModel)] ="firstName"> -->
+            <input matInput placeholder="John" [formControl]="tFirstName" required>
+            <mat-error *ngIf="tFirstName.invalid">{{getFirstNameError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Middle Name</mat-label>
-            <input matInput [(ngModel)] ="middleName">
+            <input matInput placeholder="Kumar" [formControl]="tMiddleName" >
+            <mat-error *ngIf="tMiddleName.invalid">{{getMiddleNameError()}}</mat-error>
+            <!-- <input matInput [(ngModel)] ="middleName"> -->
         </mat-form-field>
         <mat-form-field>
             <mat-label>Last Name</mat-label>
-            <input matInput [(ngModel)] ="lastName">
+            <!-- <input matInput [(ngModel)] ="lastName"> -->
+            <input matInput placeholder="Lama" [formControl]="tLastName" required>
+            <mat-error *ngIf="tLastName.invalid">{{getLastNameError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Father Name</mat-label>
-            <input matInput [(ngModel)] ="fatherName">
+            <input matInput placeholder="Ajit Lama" [formControl]="tFatherName" required>
+            <mat-error *ngIf="tFatherName.invalid">{{getFatherNameError()}}</mat-error>
+            <!-- <input matInput [(ngModel)] ="fatherName"> -->
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Mother Name</mat-label>
-            <input matInput [(ngModel)] ="motherName">
+            <!-- <input matInput [(ngModel)] ="motherName"> -->
+            <input matInput placeholder="Sabita Lama" [formControl]="tMotherName" required>
+            <mat-error *ngIf="tMotherName.invalid">{{getMobileNoError()}}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Email</mat-label>
-            <input matInput [(ngModel)] ="email">
+            <!-- <input matInput [(ngModel)] ="email"> -->
+            <input matInput placeholder="john@gmail.com" [formControl]="tEmail" required >
+            <mat-error *ngIf="tEmail.invalid">{{getEmailError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Phone No.</mat-label>
-            <input matInput [(ngModel)] ="phoneNo">
+            <mat-label>Mobile No.</mat-label>
+            <!-- <input matInput [(ngModel)] ="phoneNo"> -->
+            <input matInput placeholder="10 digit no" [formControl]="tMobileNo" required >
+            <mat-error *ngIf="tMobileNo.invalid">{{getMobileNoError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Education</mat-label>
-            <input matInput [(ngModel)] ="education"> 
+            <input matInput placeholder="M.Tech" [formControl]="tEducation" required >
+            <mat-error *ngIf="tEducation.invalid">{{getEducationError()}}</mat-error>
+            <!-- <input matInput [(ngModel)] ="education">  -->
         </mat-form-field>
         <mat-form-field>
             <mat-label>Experience</mat-label>
-            <input matInput [(ngModel)] ="experience">
+            <input matInput [(ngModel)] ="experience" [formControl]="tExperiance">
         </mat-form-field>
-        <mat-form-field>
-            <mat-label>Adress</mat-label>
-            <input matInput [(ngModel)] ="localAddress">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>District</mat-label>
-            <input matInput [(ngModel)] ="district">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Location</mat-label>
-            <input matInput [(ngModel)] ="location">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>State</mat-label>
-            <input matInput [(ngModel)] ="state">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>City</mat-label>
-            <input matInput [(ngModel)] ="city">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Postal Code</mat-label>
-            <input matInput [(ngModel)] ="postalCode">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Nationality</mat-label>
-            <input matInput [(ngModel)] ="nationality">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Country</mat-label>
-            <input matInput [(ngModel)] ="country">
-        </mat-form-field>
+        
         <mat-form-field>
             <mat-label>Gender</mat-label>
-            <mat-select (selectionChange)="onChangeGender($event)">
+            <mat-select (selectionChange)="onChangeGender($event)" [formControl]="tGender" required>
                 <mat-option *ngFor='let gender of genderArr' [value]="gender">{{gender}}</mat-option>
             </mat-select>
+            <mat-error *ngIf="tGender.invalid">{{getGenderError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Religion</mat-label>
-            <mat-select (selectionChange)="onChangeReligion($event)">
+            <mat-select (selectionChange)="onChangeReligion($event)" [formControl]="tReligion" required>
                 <mat-option *ngFor='let religion of relegionArr' [value]="religion">{{religion}}</mat-option>
             </mat-select>
+            <mat-error *ngIf="tReligion.invalid">{{getReligionError()}}</mat-error>
+        </mat-form-field>
+       
+        <mat-form-field>
+            <mat-label>Blood Group</mat-label>
+            <mat-select (selectionChange)="onChangeBlood($event)" [formControl]="tBloodGroup" required>
+                <mat-option *ngFor='let blood of bloodGroupArr' [value]="blood">{{blood}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="tBloodGroup.invalid">{{getBloodGroupError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Department</mat-label>
-            <mat-select  (selectionChange)="departmentChange($event)">
+            <mat-select  (selectionChange)="departmentChange($event)"[formControl]="tDepartment">
                 <mat-option *ngFor="let department of departmentArr" [value]="department.departmentId">{{department.department}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Blood Group</mat-label>
-            <mat-select (selectionChange)="onChangeBlood($event)">
-                <mat-option *ngFor='let blood of bloodGroupArr' [value]="blood">{{blood}}</mat-option>
-            </mat-select>
+            <mat-label>Emergency no</mat-label>
+            <input matInput placeholder="10 digit no" [formControl]="tEmergencyNo" required >
+            <mat-error *ngIf="tEmergencyNo.invalid">{{getEmergencyError()}}</mat-error>
+            <!-- <input matInput>  -->
         </mat-form-field>
         <mat-form-field>
             <mat-label>Date of Joining</mat-label>
-            <input matInput [matDatepicker]="picker" (dateChange)="onJoiningDateChange($event)">
+            <input matInput [matDatepicker]="picker" (dateChange)="onJoiningDateChange($event)" 
+            [formControl]="tDateOfJoining" required>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="tDateOfJoining.invalid">{{getDateOfJoining()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Date of Birth</mat-label>
-            <input matInput [matDatepicker]="picker2" (dateChange)="onDateOfBirthChange($event)">
+            <input matInput [matDatepicker]="picker2" (dateChange)="onDateOfBirthChange($event)"
+            [formControl]="tDateOfBirth" required>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="tDateOfBirth.invalid">{{getBirthDayError()}}</mat-error>
         </mat-form-field>
+        
         <mat-action-row>
-            <button mat-button color="primary" (click) ="addTeacher()">Submit</button>
+            <button mat-button color="primary" (click) ="nextStep()">Next</button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
+<br>
+<mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Address Info
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput placeholder="H/No #0035, M.G Road" [formControl]="tAddress" required >
+        <mat-error *ngIf="tAddress.invalid">{{getAddressError()}}</mat-error>
+        <!-- <input matInput [(ngModel)] ="localAddress"> -->
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>District</mat-label>
+        <input matInput placeholder="Dist name" [formControl]="tDistrict" required >
+        <mat-error *ngIf="tDistrict.invalid">{{getDistrictError()}}</mat-error>
+        <!-- <input matInput [(ngModel)] ="district"> -->
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Location</mat-label>
+        <input matInput [(ngModel)] ="location" [formControl]="tLocation">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>State</mat-label>
+        <!-- <input matInput [(ngModel)] ="state"> -->
+        <input matInput placeholder="State name" [formControl]="tState" required >
+        <mat-error *ngIf="tState.invalid">{{getStateError()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>City</mat-label>
+        <input matInput placeholder="City name" [formControl]="tCity" required >
+        <mat-error *ngIf="tCity.invalid">{{getCityError()}}</mat-error>
+        <!-- <input matInput [(ngModel)] ="city"> -->
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Postal Code</mat-label>
+        <!-- <input matInput [(ngModel)] ="postalCode"> -->
+        <input matInput placeholder="6 digit no" [formControl]="tPostalCode" required >
+        <mat-error *ngIf="tPostalCode.invalid">{{getPostalCodeError()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Nationality</mat-label>
+        <!-- <input matInput [(ngModel)] ="nationality"> -->
+        <input matInput placeholder="Citigen of" [formControl]="tNationality" required >
+        <mat-error *ngIf="tNationality.invalid">{{getNationalityError()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Country</mat-label>
+        <!-- <input matInput [(ngModel)] ="country"> -->
+        <input matInput placeholder="Country name" [formControl]="tCountry" required >
+        <mat-error *ngIf="tCountry.invalid">{{getCountryError()}}</mat-error>
+    </mat-form-field>
+    <mat-action-row>
+        <button mat-button color="primary" (click) ="addTeacher()">Submit</button>
+    </mat-action-row>
+</mat-expansion-panel>
 <br>
 <mat-card>
     <mat-form-field>
@@ -263,8 +320,6 @@
                 <td mat-cell *matCellDef="let row">{{row.motherName}}</td>
             </ng-container>
 
-            
-
             <ng-container matColumnDef="actions" stickyEnd>
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
                 <td mat-cell *matCellDef="let row">
@@ -272,7 +327,7 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="updateStaff(row.index)">
                   <mat-icon>edit</mat-icon>
                   <span>Edit</span>
                 </button>
@@ -283,12 +338,10 @@
                     </mat-menu>
                 </td>
             </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: dataColumns;"></tr>
         </table>
         <mat-paginator [length]="staffRowArr.length" [pageSize]="5" [pageSizeOptions]="[1,5, 10, 25, 100]">
-
         </mat-paginator>
     </div>
 </mat-card>

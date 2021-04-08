@@ -1,4 +1,5 @@
 export class Address{
+   userId: any;
    address1: any;
    address2: any;
    city: any;
@@ -9,6 +10,7 @@ export class Address{
    postalcode: any;
 
    constructor(
+    userId: any,
     address1: any,
     address2: any,
     city: any,
@@ -18,6 +20,7 @@ export class Address{
     location: any,
     postalcode: any
    ){
+    this.userId = userId;
     this.address1 = address1;
     this.address2 = address2;
     this.city = city;
@@ -29,6 +32,9 @@ export class Address{
    }
 
    // Getters 
+   public getUserId(): any{
+       return this.userId;
+   }
    public getAddress1(): any{
        return this.address1;
    }

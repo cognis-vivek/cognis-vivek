@@ -13,12 +13,14 @@ import { StudentService } from 'src/app/services/student.service';
 import { HttpClient } from '@angular/common/http';
 import { StudentGeneralInfo } from '../../models/student_gen_info';
 import { Role } from 'src/app/models/role';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 import { StudentDetails } from 'src/app/models/studentDetails';
 import { Parent } from 'src/app/models/parent';
 import { Address } from 'src/app/models/address';
 import { StudentRowData } from 'src/app/models/studentRowData';
 import { StudentCreateComponent } from './student-create/student-create.component';
+import { moment } from 'ngx-bootstrap/chronos/test/chain';
+
 
 
 interface Ipost{
@@ -60,19 +62,23 @@ export class StudentComponent implements OnInit {
   posts!: Ipost[];
   // column: string[] = ['id', 'regdNo', 'firstName', 'middleName', 'lastName','dob','email','religion', 'actions'];
   dataColumns: string[] = ['index', 'regdNo', 'firstName', 'middleName', 'lastName','dob','email','religion', 
-                           'nationality', 'gender', 'bloodGrp', 'address1', 'address2', 'district', 'city',
-                           'postalcode', 'location','state','country','fatherName','motherName','fatherPhoneNO',
-                           'motherPhoneNO','className','sectionHouseName','actions'];
+                           'nationality', 'gender', 'studentPhoneNo','bloodGrp', 'address1', 'address2', 'district', 'city',
+                           'postalcode', 'location','state','country','fatherName','motherName','guardianName',
+                           'guardianPhoneNo','className','sectionHouseName','actions'];
   // For Create student details
   firstName: any; middleName: any; lastName: any; fatherName: any; fatherPhoneNo=''; fatherEmail: any;
   motherName: any; motherPhoneNo=''; matherEmail: any; studentPhoneNo: any; localAddress: any; district: any;
   location: any; state: any; city: any; postalCode: any; nationality: any; country: any;
   gender: any; religion=''; bloodGrp: any; classId: any; sectionId=''; dob: any; schoolId ='1';
+  className=''; sectionName= '';
   genderArr: string[] = ['Male','Female','Other'];
   relegionArr: string[] = ['Hindu','Muslim','Christian','Other'];
   bloodGroupArr: string[] = ['O+','O-','A+','A-','B+','B-','AB+','AB-'];
   studentGeneralInfoArr: StudentGeneralInfo[] = [];
   studentRowDataArr: StudentRowData[] = [];
+  request = 0;
+  // updateStdGenIn?: StudentGeneralInfo;
+  updateIndex = 0;
 
 
 
@@ -91,8 +97,9 @@ export class StudentComponent implements OnInit {
     sDateOfBirth = new FormControl('', [Validators.required]);
     sBloodGroup = new FormControl('', [Validators.required]);
     sGender = new FormControl('', [Validators.required]);
-    sReligion = new FormControl('', [Validators.pattern('[a-zA-Z ]*')]);
+    sReligion = new FormControl('', [Validators.required,Validators.pattern('[a-zA-Z ]*')]);
     sClass = new FormControl('', [Validators.required]);
+    sSection = new FormControl('', [Validators.pattern('[a-zA-Z ]*')]);
     sEmergencyPhone = new FormControl('', [Validators.required, Validators.minLength(10),Validators.pattern('^[0-9]*$')]);
     sAddress = new FormControl('', [Validators.required]);
     sDist = new FormControl('', [Validators.required]);
@@ -116,10 +123,11 @@ export class StudentComponent implements OnInit {
     //   color: this.colorControl,
     //   fontSize: this.fontSizeControl,
     // });
-
     this.student = new StudentService(this.http);
     this.data = '';
     this.error = '';
+    this.dob = "2021-04-07";
+    // this.sDateOfBirth.setValue("2021-04-07");
      // This data should be coming from an API using Angular Service
 }
 
@@ -229,7 +237,7 @@ export class StudentComponent implements OnInit {
     if (this.sfirstName.hasError('required')) {
       return 'You must enter first name';
     }
-    return this.sfirstName.hasError('sFirstName') ? 'Not valid first name' : '';
+    return this.sfirstName.hasError('sfirstName') ? 'Not valid first name' : '';
   }
 
   // Middle name error
@@ -317,7 +325,7 @@ export class StudentComponent implements OnInit {
     if (this.sReligion.hasError('sReligion')) {
       return 'You must enter Character';
     }
-    
+    return this.sReligion.hasError('sReligion') ? 'Not valid Religion' : '';
   }
   // Getting Emergency Phone Error
   getEmergencyPhone(){
@@ -371,7 +379,6 @@ export class StudentComponent implements OnInit {
       return 'You must enter Country';
     }
   }
-
 
   // Saving General Info
   saveGenInfo(){
@@ -507,73 +514,149 @@ export class StudentComponent implements OnInit {
   // Changing date
   onDateChange(event: any){
     const date = event.value;
+    console.log('Date1', date);
     this.dob = this.datePipe.transform(date, 'yyyy-MM-dd');
-    console.log('Date1', this.dob);
+    console.log('Date2', this.dob);
   }
 
   // Saving Student
   saveStudent(){
-    // this.prevStep();
-    console.log('First Name ', this.sfirstName.value);
-    const body = new StudentGeneralInfo(
-          '',
-          this.sStudentPhoneNo.value,
-          '',
-          new Role('1'),
-          this.sfirstName.value,
-          this.sMiddleName.value,
-          this.sLastName.value,
-          this.sGender.value,
-          this.sBloodGroup.value,
-          this.religion,
-          this.dob,
-          this.sGuardianEmail.value, // Instead of Student Email
-          this.sNationality.value,
-          this.sEmergencyPhone.value,
-          new Address(
-            this.sAddress.value,
-            this.sAddress.value,
-            this.sCity.value,
-            this.sDist.value,
-            this.sCountry.value,
-            this.sState.value,
-            this.location,
-            this.sPostalCode.value
-          ),
-          new StudentDetails(
-            this.schoolId,
+    if(this.request === 1){
+          this.sStudentPhoneNo.setValue('');
+          const body = new StudentGeneralInfo(
             '',
-            this.sClass.value,
+            this.studentRowDataArr[this.updateIndex].studentUserId,
+            this.sStudentPhoneNo.value,
             '',
-            this.sectionId
-          ),
-          new Parent(
-            new Role('3'),
-            this.sGuardianName.value,
-            this.sGuardianPhone.value,
-            this.fatherPhoneNo,
-            this.motherPhoneNo,
-            this.sFatherName.value,
-            this.sMotherName.value,
-            ""
-          )
-    );
-    console.log('body', body);
-    this.student.postStudentDetails(this.student.saveStudentURL, body).subscribe((resData) => {
-      let parsed = JSON.parse(JSON.stringify(resData));
-      // parsed.childList
-      this.data = JSON.stringify(resData);
+            new Role('1'),
+            this.sfirstName.value,
+            this.sMiddleName.value,
+            this.sLastName.value,
+            this.sGender.value,
+            this.sBloodGroup.value,
+            this.sReligion.value,
+            this.datePipe.transform(this.sDateOfBirth.value, 'yyyy-MM-dd'),
+            this.sGuardianEmail.value, // Instead of Student Email
+            this.sNationality.value,
+            this.sEmergencyPhone.value,
+            new Address(
+              this.studentRowDataArr[this.updateIndex].addressUserId,
+              this.sAddress.value,
+              this.sAddress.value,
+              this.sCity.value,
+              this.sDist.value,
+              this.sCountry.value,
+              this.sState.value,
+              this.location,
+              this.sPostalCode.value
+            ),
+            new StudentDetails(
+              this.studentRowDataArr[this.updateIndex].studentUserId,
+              this.schoolId,
+              '',
+              this.sClass.value,
+              '',
+              this.sSection.value
+            ),
+            new Parent(
+              new Role('3'),
+              this.studentRowDataArr[this.updateIndex].parentUserID,
+              this.sGuardianName.value,
+              this.sGuardianPhone.value,
+              this.fatherPhoneNo,
+              this.motherPhoneNo,
+              this.sFatherName.value,
+              this.sMotherName.value,
+              ""
+            )
+      );
+          
       
-      console.log('Res', this.data);
-      this.getStudentList();
-    }, err =>{
-      this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
-      console.log('Error', this.error);
-    });
+      console.log("Update Data", JSON.stringify(body));
+      // break;
+      // }
+      // }
+      this.student.postStudentDetails(this.student.updateStudentURL, body).subscribe((resData) => {
+        let parsed = JSON.parse(JSON.stringify(resData));
+        // parsed.childList
+        this.data = JSON.stringify(resData);
+        console.log('Res', this.data);
+        this.request = 0;
+        this.getStudentList();
+      }, err =>{
+        this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+        console.log('Error', this.error);
+      });
+    }else{
+      console.log('First Name ', this.sfirstName.value);
+      const body = new StudentGeneralInfo(
+            '',
+            '',
+            this.sStudentPhoneNo.value,
+            '',
+            new Role('1'),
+            this.sfirstName.value,
+            this.sMiddleName.value,
+            this.sLastName.value,
+            this.sGender.value,
+            this.sBloodGroup.value,
+            this.sReligion.value,
+            this.datePipe.transform(this.sDateOfBirth.value, 'yyyy-MM-dd'),
+            this.sGuardianEmail.value, // Instead of Student Email
+            this.sNationality.value,
+            this.sEmergencyPhone.value,
+            new Address(
+              '',
+              this.sAddress.value,
+              this.sAddress.value,
+              this.sCity.value,
+              this.sDist.value,
+              this.sCountry.value,
+              this.sState.value,
+              this.location,
+              this.sPostalCode.value
+            ),
+            new StudentDetails(
+              '',
+              this.schoolId,
+              '',
+              this.sClass.value,
+              '',
+              this.sSection.value
+              // this.sectionId
+            ),
+            new Parent(
+              new Role('3'),
+              '',
+              this.sGuardianName.value,
+              this.sGuardianPhone.value,
+              this.fatherPhoneNo,
+              this.motherPhoneNo,
+              this.sFatherName.value,
+              this.sMotherName.value,
+              ""
+            )
+      );
+      console.log('body', JSON.stringify(body));
+      this.student.postStudentDetails(this.student.saveStudentURL, body).subscribe((resData) => {
+        let parsed = JSON.parse(JSON.stringify(resData));
+        // parsed.childList
+        this.data = JSON.stringify(resData);
+        
+        console.log('Res', this.data);
+        this.getStudentList();
+      }, err =>{
+        this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+        console.log('Error', this.error);
+      });
+    }
+    // this.prevStep();
+    
   }
 
   // Getting Student List
   getStudentList(){
+    console.log('date of ', this.sDateOfBirth.value);
     this.student.getStudentList(this.student.getStudentListURL,1).subscribe((resData) =>{
       let parsed = JSON.parse(JSON.stringify(resData));
       // parsed.childList
@@ -587,6 +670,7 @@ export class StudentComponent implements OnInit {
             for(let i = 0; i < parsed.allStudentList.length; i++){
               this.dataExchangeService.saveStudentRowData(new StudentRowData(
                   (i+1),
+                  parsed.allStudentList[i].userId,
                   parsed.allStudentList[i].studentId,
                   parsed.allStudentList[i].regdNo,
                   parsed.allStudentList[i].firstName,
@@ -598,6 +682,9 @@ export class StudentComponent implements OnInit {
                   parsed.allStudentList[i].nationality,
                   parsed.allStudentList[i].gender,
                   parsed.allStudentList[i].bloodGrp,
+                  parsed.allStudentList[i].studentPhoneNo,
+                  parsed.allStudentList[i].emergencyNumber,
+                  parsed.allStudentList[i].address.userId,
                   parsed.allStudentList[i].address.address1,
                   parsed.allStudentList[i].address.address2,
                   parsed.allStudentList[i].address.district,
@@ -606,6 +693,9 @@ export class StudentComponent implements OnInit {
                   parsed.allStudentList[i].address.location,
                   parsed.allStudentList[i].address.state,
                   parsed.allStudentList[i].address.country,
+                  parsed.allStudentList[i].parentModel.userId,
+                  parsed.allStudentList[i].parentModel.guardianName,
+                  parsed.allStudentList[i].parentModel.guardianPhoneNo,
                   parsed.allStudentList[i].parentModel.fatherName,
                   parsed.allStudentList[i].parentModel.motherName,
                   parsed.allStudentList[i].parentModel.fatherPhoneNO,
@@ -620,8 +710,6 @@ export class StudentComponent implements OnInit {
               this.dataSource.sort =  this.sort;
               this.dataSource.paginator = this.paginator;
               console.log("Row Data =>", this.studentRowDataArr);
-
-              
             }
             this.studentGeneralInfoArr = this.dataExchangeService.getStudentList();
             // this.dataSource = new MatTableDataSource(this.studentGeneralInfoArr);
@@ -637,16 +725,56 @@ export class StudentComponent implements OnInit {
     });
   }
 
+  // Updating Student
+        updateStudent(index: any){
+    
+          // this.updateIndex = index;
+          for(let i = 0; i < this.studentRowDataArr.length;i++){
+            if(index === this.studentRowDataArr[i].index){
+              this.updateIndex = i;
+              this.request = 1;
+              break;
+            }
+          }
+          this.sfirstName.setValue(this.studentRowDataArr[this.updateIndex].firstName);
+          this.sMiddleName.setValue(this.studentRowDataArr[this.updateIndex].middleName);
+          this.sLastName.setValue(this.studentRowDataArr[this.updateIndex].lastName);
+          this.sFatherName.setValue(this.studentRowDataArr[this.updateIndex].fatherName);
+          this.sMotherName.setValue(this.studentRowDataArr[this.updateIndex].motherName);
+          this.sGuardianName.setValue(this.studentRowDataArr[this.updateIndex].guardianName);
+          this.sGuardianPhone.setValue(this.studentRowDataArr[this.updateIndex].guardianPhoneNo);
+          this.sGuardianEmail.setValue(this.studentRowDataArr[this.updateIndex].email);
+          this.sStudentPhoneNo.setValue(this.studentRowDataArr[this.updateIndex].studentPhoneNo);
+          this.dob = this.studentRowDataArr[this.updateIndex].dob;
+          // var momentVar = moment(this.studentRowDataArr[i].dob,'MM-DD-YYYY');
+          // console.log("Date6",this.datePipe.transform(this.studentRowDataArr[this.updateIndex].dob, 'yyyy-MM-dd'));
+          this.sDateOfBirth.setValue(this.datePipe.transform(this.studentRowDataArr[this.updateIndex].dob, 'yyyy-MM-dd'));
+          this.sBloodGroup.setValue(this.studentRowDataArr[this.updateIndex].bloodGrp);
+          this.sGender.setValue(this.studentRowDataArr[this.updateIndex].gender);
+          this.sReligion.setValue(this.studentRowDataArr[this.updateIndex].religion);
+          this.sClass.setValue(this.studentRowDataArr[this.updateIndex].classId);
+          this.sSection.setValue(this.studentRowDataArr[this.updateIndex].sectionId);
+          this.sEmergencyPhone.setValue(this.studentRowDataArr[this.updateIndex].emergencyNo);
+          this.sAddress.setValue(this.studentRowDataArr[this.updateIndex].address1);
+          this.sDist.setValue(this.studentRowDataArr[this.updateIndex].district);
+          this.sLocation.setValue(this.studentRowDataArr[this.updateIndex].location);
+          this.sState.setValue(this.studentRowDataArr[this.updateIndex].fatherName);
+          this.sCity.setValue(this.studentRowDataArr[this.updateIndex].city);
+          this.sPostalCode.setValue(this.studentRowDataArr[this.updateIndex].postalcode);
+          this.sNationality.setValue(this.studentRowDataArr[this.updateIndex].nationality);
+          this.sCountry.setValue(this.studentRowDataArr[this.updateIndex].country);
+          this.setStep(0);
+  }
+
   opencommon(){
     const dialogRef = this.dialog.open(StudentCreateComponent, {
     width: '50%',
     height:'40%',
     });
-
     dialogRef.afterClosed().subscribe(result => {
     console.log('The dialog was closed');
     });
     }
-}
+  }
 
 

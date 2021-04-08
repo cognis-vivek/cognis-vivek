@@ -2,6 +2,7 @@ import { Role } from "./role";
 
 export class Parent{
     role: any;
+    userId: any;
     guardianName: any;
     guardianPhoneNo: any;
     fatherPhoneNO: any;
@@ -13,6 +14,7 @@ export class Parent{
 
     constructor(
         role: any,
+        userId: any,
         guardianName: any,
         guardianPhoneNo: any,
         fatherPhoneNO: any,
@@ -22,6 +24,7 @@ export class Parent{
         password: any
     ){
         this.role = role;
+        this.userId = userId;
         this.guardianName = guardianName;
         this.guardianPhoneNo = guardianPhoneNo;
         this.fatherPhoneNO = fatherPhoneNO;
