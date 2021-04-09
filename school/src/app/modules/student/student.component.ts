@@ -246,6 +246,7 @@ export class StudentComponent implements OnInit {
     if (this.sMiddleName.hasError('sMiddleName')) {
       return 'You must enter Character';
     }
+    return this.sMiddleName.hasError('sMiddleName') ? 'Not valid middle name' : '';
   }
   // Last Name Error
   getLastNameError(){
@@ -301,24 +302,35 @@ export class StudentComponent implements OnInit {
     if (this.sDateOfBirth.hasError('required')) {
       return 'You must enter Date of birth';
     }
+    return this.sDateOfBirth.hasError('sDateOfBirth') ? 'Not valid date' : '';
   }
   // Getting Blood Group Error
   getBloodGroupError(){
     if (this.sBloodGroup.hasError('required')) {
       return 'You must enter Blood group';
     }
+    return this.sBloodGroup.hasError('sBloodGroup') ? 'Not valid blood group' : '';
   }
   // Getting Gender Error
   getGenderError(){
     if (this.sGender.hasError('required')) {
       return 'You must enter gender';
     }
+    return this.sGender.hasError('sGender') ? 'Not valid gender' : '';
   }
   // Getting Class Error
   getClassError(){
     if (this.sClass.hasError('required')) {
       return 'You must enter class';
     }
+    return this.sClass.hasError('sClass') ? 'Not valid class' : '';
+  }
+  // Getting Section Error 
+  getSectionError(){
+    if (this.sSection.hasError('sSection')) {
+      return 'Enter valid section name';
+    }
+    return this.sSection.hasError('sSection') ? 'Not valid section' : '';
   }
   // Getting Religion Error
   getReligionMessageError(){
@@ -340,24 +352,28 @@ export class StudentComponent implements OnInit {
     if (this.sAddress.hasError('required')) {
       return 'You must enter Address';
     }
+    return this.sAddress.hasError('sAddress') ? 'Not valid address' : '';
   }
   // Getting Dist Error 
   getDistError(){
     if (this.sDist.hasError('required')) {
       return 'You must enter District';
     }
+    return this.sDist.hasError('sDist') ? 'Not valid dist' : '';
   }
   // Getting State Error
   getStateError(){
     if (this.sState.hasError('required')) {
       return 'You must enter State';
     }
+    return this.sState.hasError('sState') ? 'Not valid state' : '';
   }
   // Getting City Error
   getCityError(){
     if (this.sCity.hasError('required')) {
       return 'You must enter City';
     }
+    return this.sCity.hasError('sCity') ? 'Not valid city' : '';
   }
 
   // Getting Postal Code Error
@@ -372,12 +388,14 @@ export class StudentComponent implements OnInit {
     if (this.sNationality.hasError('required')) {
       return 'You must enter Nationality';
     }
+    return this.sNationality.hasError('sNationality') ? 'Not valid nationality' : '';
   }
   // Getting Country Error
   getCountryError(){
     if (this.sCountry.hasError('required')) {
       return 'You must enter Country';
     }
+    return this.sCountry.hasError('sCountry') ? 'Not valid country' : '';
   }
 
   // Saving General Info

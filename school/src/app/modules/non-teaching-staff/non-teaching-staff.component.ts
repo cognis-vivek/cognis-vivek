@@ -181,23 +181,27 @@ export class NonTeachingStaffComponent implements OnInit {
     if (this.tEducation.hasError('required')) {
       return 'You must enter education';
     }
+    return this.tEducation.hasError('tEducation') ? 'Not valid education' : '';
   }
 
   getGenderError(){
     if (this.tGender.hasError('required')) {
       return 'You must enter gender';
     }
+    return this.tGender.hasError('tGender') ? 'Not valid gender' : '';
   }
 
   getReligionError(){
     if (this.tReligion.hasError('required')) {
       return 'You must enter religion';
     }
+    return this.tReligion.hasError('tReligion') ? 'Not valid religion' : '';
   }
   getBloodGroupError(){
     if (this.tBloodGroup.hasError('required')) {
       return 'You must enter blood group';
     }
+    return this.tBloodGroup.hasError('tBloodGroup') ? 'Not valid blood group' : '';
   }
   getEmergencyError(){
     if (this.tEmergencyNo.hasError('required')) {
@@ -223,6 +227,7 @@ export class NonTeachingStaffComponent implements OnInit {
     if (this.tAddress.hasError('required')) {
       return 'You must enter address';
     }
+    return this.tAddress.hasError('tAddress') ? 'Not valid address' : '';
   }
 
   getDistrictError(){
@@ -257,12 +262,14 @@ getNationalityError(){
   if (this.tNationality.hasError('required')) {
     return 'You must enter Nationality';
   }
+  return this.tNationality.hasError('tNationality') ? 'Not valid' : '';
 }
 // Getting Country Error
 getCountryError(){
   if (this.tCountry.hasError('required')) {
     return 'You must enter Country';
   }
+  return this.tCountry.hasError('tCountry') ? 'Not valid' : '';
 }
   ngOnInit(): void {  
     this.getDepartMent();
@@ -563,7 +570,7 @@ getCountryError(){
     this.tMiddleName.setValue(this.staffRowArr[this.updateIndex].middleName);
     this.tLastName.setValue(this.staffRowArr[this.updateIndex].lastName);
     this.tFatherName.setValue(this.staffRowArr[this.updateIndex].fatherName);
-    this.tMotherName.setValue(this.staffRowArr[this.updateIndex].motherName);
+    this.tMotherName.setValue(this.staffRowArr[this.updateIndex].moName);
     this.tEmail.setValue(this.staffRowArr[this.updateIndex].email);
     this.tMobileNo.setValue(this.staffRowArr[this.updateIndex].phoneNo);
     this.tExperiance.setValue(this.staffRowArr[this.updateIndex].experience);

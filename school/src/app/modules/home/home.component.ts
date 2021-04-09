@@ -158,6 +158,7 @@ export class HomeComponent implements OnInit {
               for(let i=0; i<parsed.getAllStaffList.length; i++){
                   this.dataExchangeService.saveStaffRowData(new StaffRow(
                     (i+1),
+                    parsed.getAllStaffList[i].generalInfo.userId,
                     parsed.getAllStaffList[i].staff.staffId,
                     parsed.getAllStaffList[i].staff.phoneNo,
                     parsed.getAllStaffList[i].department.roleId,
@@ -184,7 +185,8 @@ export class HomeComponent implements OnInit {
                     parsed.getAllStaffList[i].staff.joiningDate,
                     parsed.getAllStaffList[i].staff.experience,
                     parsed.getAllStaffList[i].staff.fatherName,
-                    parsed.getAllStaffList[i].staff.motherName
+                    parsed.getAllStaffList[i].staff.motherName,
+                    parsed.getAllStaffList[i].generalInfo.emergencyNo
                   ));
               }
               this.staffArr = this.dataExchangeService.getStaffRowData();

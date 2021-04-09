@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class StudentService {
 // 3.17.165.248
-  public baseUrl = 'http://localhost:8080/';
+  public baseUrl = 'http://3.17.165.248:8080/';
   public deleteUserURL = 'SchoolWebApp/rest/userService/updateUserStatus';
   public sectionURLGet = 'SchoolWebApp/rest/sectionService';
   public sectionURLPost = 'SchoolWebApp/rest/sectionService';
@@ -19,6 +19,7 @@ export class StudentService {
   public postSubjectSyllabusURL = 'SchoolWebApp/rest/subjectService';
   public examTypeURL = 'SchoolWebApp/rest/examresult/examtype';
   public circularURL = 'SchoolWebApp/rest/messageService';
+  public updateCircularUrl = this.circularURL + '/updateMessage';
   public subjectSyllabus = 'SchoolWebApp/rest/syllabusService';
   public configDataURL = 'SchoolWebApp/rest/configFeeService';
   public feeMasterURL = 'SchoolWebApp/rest/configFeeService/getMasterFee';
@@ -134,8 +135,8 @@ export class StudentService {
       }
 
       // Getting Circular
-      public getCircular(url: string, userId: any): Observable<object>{
-        return this.http.get(this.baseUrl + url + '?userId=' + userId);
+      public getCircular(url: string, schoolId: any): Observable<object>{
+        return this.http.get(this.baseUrl + url + '?schoolId=' + schoolId);
       }
 
       // Posting Circular

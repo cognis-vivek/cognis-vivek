@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {MatAccordion} from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 export interface Task {
   name: string;
   completed: boolean;
@@ -39,17 +40,23 @@ export class ManageCircularComponent implements OnInit {
       {name: 'C', completed: false, color: 'primary'}
     ]
   };
-  checked = false;
-  checkedB = false;
-  checkedC = false;
-  checkedD = false;
+  // checked = false;
+  // checkedB = false;
+  // checkedC = false;
+  // checkedD = false;
   allComplete: boolean = false;
   msgSubject: any;
   msgBody: any;
   data: any;
   error: any;
   circularArr: Circular[] = [];
+  request = 0;
+  updatedIndex = 0;
+  step = 0;
 
+
+  sMessageSubject = new FormControl('', [Validators.required,Validators.pattern('[a-zA-Z ]*')]);
+  sMessageBody = new FormControl('', [Validators.required]);
 
   constructor(private http: HttpClient,
     private student: StudentService,
@@ -92,10 +99,11 @@ export class ManageCircularComponent implements OnInit {
 
   // Getting All Circular
   getCircularList(){
-    this.student.getCircular(this.student.circularURL, 38).subscribe((resData) =>{
+    this.student.getCircular(this.student.circularURL, 1).subscribe((resData) =>{
       let parsed = JSON.parse(JSON.stringify(resData));
       // parsed.childList
       this.data = JSON.stringify(resData);
+      console.log("row",this.data);
       JSON.parse(this.data, (key, value) =>{
         if(typeof key === 'string'){
           if(key.toString() === 'messageList'){
@@ -123,24 +131,93 @@ export class ManageCircularComponent implements OnInit {
     });
   }
 
+  // Adding Message Subject Error
+  getMessageSubjectError(){
+    if (this.sMessageSubject.hasError('required')) {
+      return 'You must enter subject';
+    }
+    return this.sMessageSubject.hasError('sMessageSubject') ? 'Not valid subject name' : '';
+  }
+
+  // Adding Message Body Error
+  getMessageBodyError(){
+    if (this.sMessageBody.hasError('required')) {
+      return 'You must enter Message details';
+    }
+    return this.sMessageBody.hasError('sMessageBody') ? 'Not valid message' : '';
+  }
+
+  // Setting Step
+  setStep(index: number){
+    this.step = index;
+  }
+  nextStep(){
+    this.step++;
+  }
+
+  prevStep(){
+    this.step--;
+  //  let total = this.step - this.step/this.step;
+  }
+
   // Adding Circular
   addCircular(){
-    const body ={
-      userId: 38,
-      messageSubject: this.msgSubject,
-      messageBody: this.msgBody
-    };
+     if(!this.sMessageSubject.valid && !this.sMessageBody.valid){
+        console.log("Please enter both the value");
+     }else{
+      if(this.request !== 1){
+        const body ={
+          userId: 2,
+          messageSubject: this.sMessageSubject.value,
+          messageBody: this.sMessageBody.value
+        };
+        console.log('body1', body);
+        this.student.postCircular(this.student.circularURL, body).subscribe((resData) =>{
+          let parsed = JSON.parse(JSON.stringify(resData));
+          // parsed.childList
+          this.data = JSON.stringify(resData);
+          console.log("message", this.data);
+          this.getCircularList();
+        },
+        err =>{
+          this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+          console.log('Error', this.error);
+        });
+     }else{
+      const body ={
+        userId: 2,
+        messageId: this.circularArr[this.updatedIndex].messageId,
+        messageSubject: this.sMessageSubject.value,
+        messageBody: this.sMessageBody.value
+      };
+      console.log('body 2', body);
+      this.student.postCircular(this.student.updateCircularUrl, body).subscribe((resData) =>{
+        let parsed = JSON.parse(JSON.stringify(resData));
+        // parsed.childList
+        this.data = JSON.stringify(resData);
+        console.log("message", this.data);
+        this.getCircularList();
+      },
+      err =>{
+        this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+        console.log('Error', this.error);
+      });
+     }
+     }
+  }
 
-    this.student.postCircular(this.student.circularURL, body).subscribe((resData) =>{
-      let parsed = JSON.parse(JSON.stringify(resData));
-      // parsed.childList
-      this.data = JSON.stringify(resData);
-      console.log("message", this.data);
-      this.getCircularList();
-    },
-    err =>{
-      this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
-      console.log('Error', this.error);
-    });
+
+  updateMessage(index: any){
+    for(let i = 0; i < this.circularArr.length; i++){
+      if(index === this.circularArr[i].messageId){
+        this.updatedIndex = i;
+        this.request = 1;
+        this.setStep(0);
+        break;
+      }
+    }
+    this.sMessageSubject.setValue(this.circularArr[this.updatedIndex].messageSubject);
+    console.log('Subject',this.circularArr[this.updatedIndex].messageSubject);
+    this.sMessageBody.setValue(this.circularArr[this.updatedIndex].messageBody);
   }
 }

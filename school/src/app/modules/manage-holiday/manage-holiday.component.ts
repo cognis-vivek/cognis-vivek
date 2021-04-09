@@ -29,7 +29,7 @@ export class ManageHolidayComponent implements OnInit {
     column: string[] = ['holidayId', 'nameOfHoliday','fromDate', 'toDate', 'actions'];
     holidayArr: HoliDay[] = [];
 
-      panelOpenState = false;
+    panelOpenState = false;
 
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
     @ViewChild( MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -41,8 +41,8 @@ export class ManageHolidayComponent implements OnInit {
     updatedIndex = 0;
 
     range = new FormGroup({
-      start: new FormControl(),
-      end: new FormControl()
+      start: new FormControl('', Validators.required),  
+      end: new FormControl('', Validators.required)  
     });
     data: any;
     error: any;
@@ -51,13 +51,17 @@ export class ManageHolidayComponent implements OnInit {
       constructor(private http: HttpClient,
                   private dataExchangeService: DataExchangeService,
                   private student: StudentService,
-                  private datePipe: DatePipe) {
+                  private datePipe: DatePipe,
+                  private formBuilder: FormBuilder) {
 
         this.student = new StudentService(this.http);
         this.data = '';
         this.error = '';
 
-
+        this.range = this.formBuilder.group({
+          start: new FormControl('', Validators.required),  
+          end: new FormControl('', Validators.required)  
+        });
       }
 
       // Saving Holiday
@@ -141,11 +145,24 @@ export class ManageHolidayComponent implements OnInit {
             break;
           }
         }
-        
+        // this.datePipe.transform(this.holidayArr[this.updatedIndex].fromDate, 'yyyy-MM-dd'),
         this.sHolidayName.setValue(this.holidayArr[this.updatedIndex].nameOfHoliday);
-        this.sStartDate.setValue
+        // this.datePipe.transform(this.range.controls.start.value, 'yyyy-MM-dd');
+        // this.range.controls.start.setValue(this.holidayArr[this.updatedIndex].fromDate);
+        // this.range.controls.end.setValue(this.holidayArr[this.updatedIndex].toDate);
+        this.range.setValue({
+          start: 'abc',
+          end: 'ayu'
+       });
+        console.log("Range",this.range.value);
+        
       }
 
-      
-
+      // Getting Holiday error
+      getHolidayError(){
+        if (this.sHolidayName.hasError('required')) {
+          return 'You must enter valid name';
+        }
+        return this.sHolidayName.hasError('sHolidayName') ? 'Not valid name' : '';
+      }
 }

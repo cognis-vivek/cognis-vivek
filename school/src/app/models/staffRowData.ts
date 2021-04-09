@@ -27,7 +27,7 @@ export class StaffRow{
     joiningDate: any;
     experience: any;
     fatherName: any;
-    motherName: any;
+    moName: any;
     emergencyNo: any;
 
     constructor(
@@ -59,7 +59,7 @@ export class StaffRow{
         joiningDate: any,
         experience: any,
         fatherName: any,
-        motherName: any,
+        moName: any,
         emergencyNo: any
     ){
         this.index=index;
@@ -90,7 +90,7 @@ export class StaffRow{
         this.joiningDate=joiningDate;
         this.experience=experience;
         this.fatherName=fatherName;
-        this.motherName=motherName;
+        this.moName=moName;
         this.emergencyNo = emergencyNo;
     }
 

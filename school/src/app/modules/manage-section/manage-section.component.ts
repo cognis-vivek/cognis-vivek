@@ -172,38 +172,42 @@ export class ManageSectionComponent implements OnInit {
 
   // Adding Section
   async addSection(){
-    if(this.request === 1){
-      const body = {
-            sectionHouseName: this.sSection.value,
-            sectionId: this.sectionObj.sectionId
-          }
-          this.student.putSection(this.student.sectionURLPUT,body).subscribe(resData =>{
-            let parsed = JSON.parse(JSON.stringify(resData));
-            // parsed.childList
-            this.data = JSON.stringify(resData);
-            console.log("updated status > ", this.data);
-            this.getAllSectionCall();
-          },
-          err =>{
-            this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
-            console.log('Error', this.error);
-          });
+    if(this.sSection.valid){
+      console.log("Enter valid section name")
     }else{
-      const body= {
-        sectionHouseName: this.sectionName,
-        schoolId: 1
-      };
-      this.student.postSection(this.student.sectionURLPost, body).subscribe(resData =>{
-        let parsed = JSON.parse(JSON.stringify(resData));
-        // parsed.childList
-        this.data = JSON.stringify(resData);
-        console.log('Res', this.data);
-        this.getAllSectionCall();
-      },
-      err =>{
-        this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
-        console.log('ErrorRes', this.error);
-      });
+      if(this.request === 1){
+        const body = {
+              sectionHouseName: this.sSection.value,
+              sectionId: this.sectionObj.sectionId
+            }
+            this.student.putSection(this.student.sectionURLPUT,body).subscribe(resData =>{
+              let parsed = JSON.parse(JSON.stringify(resData));
+              // parsed.childList
+              this.data = JSON.stringify(resData);
+              console.log("updated status > ", this.data);
+              this.getAllSectionCall();
+            },
+            err =>{
+              this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+              console.log('Error', this.error);
+            });
+      }else{
+        const body= {
+          sectionHouseName: this.sectionName,
+          schoolId: 1
+        };
+        this.student.postSection(this.student.sectionURLPost, body).subscribe(resData =>{
+          let parsed = JSON.parse(JSON.stringify(resData));
+          // parsed.childList
+          this.data = JSON.stringify(resData);
+          console.log('Res', this.data);
+          this.getAllSectionCall();
+        },
+        err =>{
+          this.error = 'An error occurred,  Status:' + err.status, + ' Message:' + err.statusText;
+          console.log('ErrorRes', this.error);
+        });
+      }
     }
   }
 }

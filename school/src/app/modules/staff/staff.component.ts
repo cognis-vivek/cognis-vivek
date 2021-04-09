@@ -94,20 +94,6 @@ export class StaffComponent implements OnInit {
     this.data = '';
     this.error = '';
 
-    this.posts = [{
-      id: '1',
-      author: 'Kamalakanta Parida',
-      title: 'First Post',
-      category: 'Uncategory',
-      date: '30-11-2020'
-    },
-  {
-    id: '2',
-    author: 'Kamalakanta Parida',
-    title: 'Second Post',
-    category: 'Uncategory',
-    date: '30-11-2020'
-  }];
   }
 
   // For Drop down
@@ -116,14 +102,38 @@ export class StaffComponent implements OnInit {
   }
 
   nextStep(){
-    this.step++;
+    if(!this.tFirstName.valid){
+      console.log('First Name not valid');
+    }else if(!this.tLastName.valid){
+      console.log('Last Name not valid');
+    }else if(!this.tFatherName.valid){
+      console.log('Last Name not valid');
+    }else if(!this.tMotherName.valid){
+      console.log('Mother Name not valid');
+    }else if(!this.tEmail.valid){
+      console.log('Email not valid');
+    }else if(!this.tMobileNo.valid){
+      console.log('Mobile no not valid');
+    }else if(!this.tEducation.valid){
+      console.log('Education not valid');
+    }else if(!this.tDateOfJoining.valid){
+      console.log('Date of joining not valid');
+    }else if(!this.tBloodGroup.valid){
+      console.log('Blood does not exist');
+    }else if(!this.tGender.valid){
+      console.log('Gender does not exist');
+    }else if(!this.tDateOfBirth.valid){
+      console.log('Date of birth not exist');
+    }else if(!this.tEmergencyNo.valid){
+      console.log("Emergency number not exist");
+    }else{
+      this.step++;
+    }
   }
 
   prevStep(){
     this.step--;
   }
-
-
 
   // Error Messages 
   getFirstNameError(){
@@ -179,23 +189,27 @@ export class StaffComponent implements OnInit {
     if (this.tEducation.hasError('required')) {
       return 'You must enter education';
     }
+    return this.tEducation.hasError('tEducation') ? 'Not valid education' : '';
   }
 
   getGenderError(){
     if (this.tGender.hasError('required')) {
       return 'You must enter gender';
     }
+    return this.tGender.hasError('tGender') ? 'Not valid gender' : '';
   }
 
   getReligionError(){
     if (this.tReligion.hasError('required')) {
       return 'You must enter religion';
     }
+    return this.tReligion.hasError('tReligion') ? 'Not valid religion' : '';
   }
   getBloodGroupError(){
     if (this.tBloodGroup.hasError('required')) {
       return 'You must enter blood group';
     }
+    return this.tBloodGroup.hasError('tBloodGroup') ? 'Not valid blood group' : '';
   }
   getEmergencyError(){
     if (this.tEmergencyNo.hasError('required')) {
@@ -221,6 +235,7 @@ export class StaffComponent implements OnInit {
     if (this.tAddress.hasError('required')) {
       return 'You must enter address';
     }
+    return this.tAddress.hasError('tAddress') ? 'Not valid address' : '';
   }
 
   getDistrictError(){
@@ -255,12 +270,14 @@ getNationalityError(){
   if (this.tNationality.hasError('required')) {
     return 'You must enter Nationality';
   }
+  return this.tNationality.hasError('tNationality') ? 'Not valid nationality' : '';
 }
 // Getting Country Error
 getCountryError(){
   if (this.tCountry.hasError('required')) {
     return 'You must enter Country';
   }
+  return this.tCountry.hasError('tCountry') ? 'Not valid country' : '';
 }
   ngOnInit(): void {  
     this.getDepartMent();
@@ -528,7 +545,7 @@ getCountryError(){
     this.tMiddleName.setValue(this.staffRowArr[this.updateIndex].middleName);
     this.tLastName.setValue(this.staffRowArr[this.updateIndex].lastName);
     this.tFatherName.setValue(this.staffRowArr[this.updateIndex].fatherName);
-    this.tMotherName.setValue(this.staffRowArr[this.updateIndex].motherName);
+    this.tMotherName.setValue(this.staffRowArr[this.updateIndex].moName);
     this.tEmail.setValue(this.staffRowArr[this.updateIndex].email);
     this.tMobileNo.setValue(this.staffRowArr[this.updateIndex].phoneNo);
     this.tExperiance.setValue(this.staffRowArr[this.updateIndex].experience);
