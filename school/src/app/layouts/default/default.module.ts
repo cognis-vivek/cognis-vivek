@@ -128,7 +128,6 @@ import { DailyClassComponent } from '../../modules/daily-class/daily-class.compo
     MatTooltipModule,
     MatExpansionModule,
     MatTableModule
-
   ]
 })
 export class DefaultModule { }

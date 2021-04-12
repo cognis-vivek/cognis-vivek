@@ -11,9 +11,10 @@
         </mat-expansion-panel-header>
         <mat-form-field>
             <mat-label>Day</mat-label>
-            <mat-select (selectionChange)="onChangeDay($event)">
+            <mat-select (selectionChange)="onChangeDay($event)" [formControl]="sDay">
                 <mat-option *ngFor='let day of dayArray' [value]="day.id">{{day.day}}</mat-option>
             </mat-select>
+            <mat-error *ngIf="sDay.invalid">{{getDayError()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Teacher</mat-label>

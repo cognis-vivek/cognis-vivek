@@ -11,7 +11,9 @@
         </mat-expansion-panel-header>
         <mat-form-field>
             <mat-label>Class Name</mat-label>
-            <input matInput [(ngModel)]="className">
+            <input matInput placeholder="Subject" [formControl]="sClassName" required>
+            <mat-error *ngIf="sClassName.invalid">{{getClassError()}}</mat-error>
+            <!-- <input matInput [(ngModel)]="className"> -->
         </mat-form-field>
 
         <mat-form-field>
@@ -58,14 +60,14 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="updateClass(row.classId)">
                   <mat-icon>edit</mat-icon>
                   <span>Edit</span>
                 </button>
-                        <button mat-menu-item>
+                        <!-- <button mat-menu-item>
                   <mat-icon>delete</mat-icon>
                   <span>Delete</span>
-                </button>
+                </button> -->
                     </mat-menu>
                 </td>
             </ng-container>

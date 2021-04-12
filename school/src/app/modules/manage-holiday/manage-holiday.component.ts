@@ -69,7 +69,7 @@ export class ManageHolidayComponent implements OnInit {
         console.log('Date Range', this.range.controls.start.value);
         const body = {
           schoolId: 1,
-          nameOfHoliday : this.holidayName,
+          nameOfHoliday : this.sHolidayName.value,
           fromDate: this.datePipe.transform(this.range.controls.start.value, 'yyyy-MM-dd'),
           toDate: this.datePipe.transform(this.range.controls.end.value, 'yyyy-MM-dd')
         }
@@ -150,11 +150,12 @@ export class ManageHolidayComponent implements OnInit {
         // this.datePipe.transform(this.range.controls.start.value, 'yyyy-MM-dd');
         // this.range.controls.start.setValue(this.holidayArr[this.updatedIndex].fromDate);
         // this.range.controls.end.setValue(this.holidayArr[this.updatedIndex].toDate);
+        // this.datePipe.transform(this.holidayArr[this.updatedIndex].fromDate, 'dd-MM-yyyy'),
         this.range.setValue({
-          start: 'abc',
-          end: 'ayu'
+          start: this.holidayArr[this.updatedIndex].fromDate,
+          end: this.holidayArr[this.updatedIndex].toDate
        });
-        console.log("Range",this.range.value);
+        console.log("Range",this.datePipe.transform(this.holidayArr[this.updatedIndex].fromDate, 'yyyy/MM/dd'));
         
       }
 

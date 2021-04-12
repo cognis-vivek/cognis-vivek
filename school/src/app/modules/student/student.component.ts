@@ -162,22 +162,6 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  
-  // getErrorMessage() {
-  //   if (this.email.hasError('required')) {
-  //     return 'You must enter an email';
-  //   }
-  //   return this.email.hasError('email') ? 'Not a valid email' : '';
-  // }
-
-  // For Phone
-  // keyPress(event: any) {
-  //   const pattern = /[0-9]/;
-  //   let inputChar = String.fromCharCode(event.charCode);
-  //     if (!pattern.test(inputChar)) {
-  //         event.preventDefault();
-  //     }
-  //   }
 
   
 
@@ -215,12 +199,7 @@ export class StudentComponent implements OnInit {
       this.step++;
     }
 
-    // if(this.sfirstName.con === null){
-    //   console.log('err occured')
-    // }else{
-    //   this.step++;
-    // }
-    
+ 
   }
 
   prevStep() {

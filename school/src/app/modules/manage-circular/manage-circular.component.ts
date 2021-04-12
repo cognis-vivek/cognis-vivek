@@ -9,12 +9,12 @@ import {MatAccordion} from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-export interface Task {
-  name: string;
-  completed: boolean;
-  color: ThemePalette;
-  subtasks?: Task[];
-}
+// export interface Task {
+//   name: string;
+//   completed: boolean;
+//   color: ThemePalette;
+//   subtasks?: Task[];
+// }
 
 @Component({
   selector: 'app-manage-circular',
@@ -29,17 +29,17 @@ export class ManageCircularComponent implements OnInit {
   displayedColumns: string[] = ['messageId', 'messageSubject','messageBody','date','actions'];
   dataSource!: MatTableDataSource<Circular>;
 
-  task: Task = {
-    name: 'Select All',
-    completed: false,
-    color: 'primary',
-    subtasks: [
-      {name: 'Select All', completed: false, color: 'primary'},
-      {name: 'A', completed: false, color: 'primary'},
-      {name: 'B', completed: false, color: 'primary'},
-      {name: 'C', completed: false, color: 'primary'}
-    ]
-  };
+  // task: Task = {
+  //   name: 'Select All',
+  //   completed: false,
+  //   color: 'primary',
+  //   subtasks: [
+  //     {name: 'Select All', completed: false, color: 'primary'},
+  //     {name: 'A', completed: false, color: 'primary'},
+  //     {name: 'B', completed: false, color: 'primary'},
+  //     {name: 'C', completed: false, color: 'primary'}
+  //   ]
+  // };
   // checked = false;
   // checkedB = false;
   // checkedC = false;
@@ -71,24 +71,24 @@ export class ManageCircularComponent implements OnInit {
     this.getCircularList();
   }
 
-  updateAllComplete() {
-    this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
-  }
+  // updateAllComplete() {
+  //   this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
+  // }
 
-  someComplete(): boolean {
-    if (this.task.subtasks == null) {
-      return false;
-    }
-    return this.task.subtasks.filter(t => t.completed).length > 0 && !this.allComplete;
-  }
+  // someComplete(): boolean {
+  //   if (this.task.subtasks == null) {
+  //     return false;
+  //   }
+  //   return this.task.subtasks.filter(t => t.completed).length > 0 && !this.allComplete;
+  // }
 
-  setAll(completed: boolean) {
-    this.allComplete = completed;
-    if (this.task.subtasks == null) {
-      return;
-    }
-    this.task.subtasks.forEach(t => t.completed = completed);
-  }
+  // setAll(completed: boolean) {
+  //   this.allComplete = completed;
+  //   if (this.task.subtasks == null) {
+  //     return;
+  //   }
+  //   this.task.subtasks.forEach(t => t.completed = completed);
+  // }
 
   panelOpenState = false;
 

@@ -37,6 +37,7 @@ export class ManageSectionComponent implements OnInit {
   sectionArr: Section[] = [];
   request=0;
   sectionObj!: Section;
+  updatedIndex = 0;
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild( MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -111,6 +112,7 @@ export class ManageSectionComponent implements OnInit {
     console.log("se ",sectionId);
     for(let i = 0; i < this.sectionArr.length;i++){
       if(sectionId === this.sectionArr[i].sectionId){
+        this.updatedIndex=i;
         this.sectionObj = this.sectionArr[i];
         this.setStep(0);
         this.request = 1;
@@ -172,9 +174,9 @@ export class ManageSectionComponent implements OnInit {
 
   // Adding Section
   async addSection(){
-    if(this.sSection.valid){
-      console.log("Enter valid section name")
-    }else{
+    // if(this.sSection.valid){
+    //   console.log("Enter valid section name")
+    // }else{
       if(this.request === 1){
         const body = {
               sectionHouseName: this.sSection.value,
@@ -193,6 +195,7 @@ export class ManageSectionComponent implements OnInit {
             });
       }else{
         const body= {
+          sectionId: this.sectionArr[this.updatedIndex].sectionId,
           sectionHouseName: this.sectionName,
           schoolId: 1
         };
@@ -208,6 +211,6 @@ export class ManageSectionComponent implements OnInit {
           console.log('ErrorRes', this.error);
         });
       }
-    }
+    // }
   }
 }

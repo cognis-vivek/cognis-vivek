@@ -7,12 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class StudentService {
 // 3.17.165.248
-  public baseUrl = 'http://3.17.165.248:8080/';
+  public baseUrl = 'http://localhost:8080/';
   public deleteUserURL = 'SchoolWebApp/rest/userService/updateUserStatus';
   public sectionURLGet = 'SchoolWebApp/rest/sectionService';
   public sectionURLPost = 'SchoolWebApp/rest/sectionService';
   public sectionURLPUT = this.sectionURLPost + '/updateSection';
   public classesDetailsURL = 'SchoolWebApp/rest/classService';
+  public updateClassURL = this.classesDetailsURL + '/updateClass';
   public saveStudentURL = 'SchoolWebApp/rest/generalService';
   public updateStudentURL = this.saveStudentURL + '/updateGeneralService';
   public saveHoliDayURL = 'SchoolWebApp/rest/holidayService';

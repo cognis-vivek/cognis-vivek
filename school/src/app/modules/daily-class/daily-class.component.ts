@@ -11,6 +11,7 @@ import { ClassSection } from '../../models/classSection';
 import { Section } from '../../models/section';
 import { SchoolSubject } from '../../models/subject';
 import { DailyClass } from '../../models/dailyClass';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 
 interface Ipost{
@@ -75,6 +76,14 @@ export class DailyClassComponent implements OnInit {
       day : 'Saturday'
     }
   ];
+
+  sDay = new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z]*')]);
+  sTeacher = new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z]*')]);
+  sClass = new FormControl('',[Validators.required]);
+  sSection = new FormControl('',[Validators.required]);
+  sSubject = new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z]*')]);
+  sStartTime = new FormControl('',[Validators.required]);
+  sEndTime = new FormControl('',[Validators.required]);
   constructor(
     private http: HttpClient,
     private student: StudentService,
@@ -97,6 +106,11 @@ export class DailyClassComponent implements OnInit {
   applyFilter(event: any){
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  // Getting Day Error
+  getDayError(){
+
   }
 
   // Getting daily class data
